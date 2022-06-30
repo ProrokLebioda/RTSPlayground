@@ -4,7 +4,7 @@ public delegate void Built(string name);
 public interface IBuilding
 {
 
-    public static Built OnBuilt { get; set; }
+    public static Built OnBuilt;
     string Name { get; set; }
     float Health { get; set; }
     bool IsBuilt { get; set; }
