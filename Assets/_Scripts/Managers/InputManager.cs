@@ -18,6 +18,8 @@ public class InputManager : MonoBehaviour
     [SerializeField]
     private GameObject productionBuildingsPanel;
 
+    public GameObject building { get; private set; }
+
     private void Start()
     {
         buildingsMenuUI.SetActive(false);
@@ -70,4 +72,20 @@ public class InputManager : MonoBehaviour
         resourceBuildingsPanel.SetActive(false);
         productionBuildingsPanel.SetActive(true);
     }
+
+    public void OnWoodcutterHutButtonClick()
+    {
+        // Place code responsible for building a Woodcutter's Hut
+        CameraController.Instance.SetMouseMode(CameraController.MouseMode.BuildMode);
+        building = Resources.Load<GameObject>("_Prefabs/Buildings/Resources/WoodcutterHut");
+        CameraController.Instance.SetBuilding(building);
+    }
+
+    public void OnSimpleHouseButtonClick()
+    {
+        // Place code responsible for building a Simple House
+        CameraController.Instance.SetMouseMode(CameraController.MouseMode.BuildMode);
+        building = Resources.Load<GameObject>("_Prefabs/Buildings/Homes/SimpleHome");
+        CameraController.Instance.SetBuilding(building);
+    }    
 }
