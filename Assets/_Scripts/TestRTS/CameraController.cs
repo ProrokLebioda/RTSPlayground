@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,12 +29,38 @@ public class CameraController : MonoBehaviour
     public Vector3 screenPosition;
     public Vector3 worldPosition;
 
-    public GameObject simpleHome;
-    public GameObject woodcutterHut;
+    [SerializeField]
+    private GameObject building;
+
+    public enum MouseMode
+    {
+        NormalMode = 1,
+        BuildMode,
+        UnitControlMode
+    };
+
+    public MouseMode mouseMode;
+
+    private MouseMode MouseControlMode { get => mouseMode; set => mouseMode = value; }
+
+    public static CameraController Instance
+    {
+        get
+        {
+            return instance ? instance : (instance = (new GameObject("CameraController")).AddComponent<CameraController>());
+
+        }
+    }
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        instance = this;
+        
+        MouseControlMode = MouseMode.NormalMode;
         newPosition = transform.position;
         newRotation = transform.rotation;
         newZoom = cameraTransform.localPosition;
@@ -76,37 +103,69 @@ public class CameraController : MonoBehaviour
         //    }
         //}
 
-        SpawnPrefab();
+        // LMB
+        if (Input.GetMouseButtonDown(0))
+        {
+            switch(MouseControlMode)
+            {
+                case MouseMode.NormalMode:
+                    break;
+
+                case MouseMode.BuildMode:
+                    Build();
+                    SetMouseMode(MouseMode.NormalMode);
+                    break;
+
+                case MouseMode.UnitControlMode:
+                    break;
+            }
+        }
+
+        //RMB
+        if (Input.GetMouseButtonDown(1))
+        {
+            switch (MouseControlMode)
+            {
+                case MouseMode.NormalMode:
+                    break;
+
+                case MouseMode.BuildMode:
+                    building = null;
+                    SetMouseMode(MouseMode.NormalMode);
+                    break;
+
+                case MouseMode.UnitControlMode:
+                    SetMouseMode(MouseMode.NormalMode);
+                    break;
+            }
+        }
+
+
     }
 
-    private void SpawnPrefab()
+    private void Build()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-
-                Instantiate(simpleHome, hit.point, Quaternion.identity);
-                print("Simple Home is spawned");
-
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit))
-            {
-
-                Instantiate(woodcutterHut, hit.point, Quaternion.identity);
-                print("Woodcutter Hut is spawned");
-
-            }
+            Instantiate(building, hit.point, Quaternion.identity);
+            print(building.name + " is spawned");
         }
     }
+
+    public void SetBuilding(GameObject _b)
+    {
+        if (_b != null)
+        {
+            building = _b;
+        }
+    }
+
+    public void SetMouseMode(MouseMode newMode) => mouseMode = newMode;
+
+    public MouseMode GetMouseMode() => mouseMode;
+    
 
     private void MouseCameraRotate()
     {
@@ -236,4 +295,6 @@ public class CameraController : MonoBehaviour
             movementSpeed = normalSpeed;
         }
     }
+
+
 }

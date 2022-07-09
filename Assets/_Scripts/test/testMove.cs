@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.EventSystems;
 
 public class testMove : MonoBehaviour
 {
@@ -28,7 +29,9 @@ public class testMove : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
-            myNavMeshAgent.SetDestination(hit.point);
+            //If mouse not over UI element
+            if (!EventSystem.current.IsPointerOverGameObject())
+                myNavMeshAgent.SetDestination(hit.point);
         }
     }
 }
