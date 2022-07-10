@@ -149,7 +149,7 @@ public class CameraController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            Instantiate(building, hit.point, Quaternion.identity);
+            Instantiate(building, hit.point, Quaternion.Euler(0f, -45f,0f));
             print(building.name + " is spawned");
         }
     }

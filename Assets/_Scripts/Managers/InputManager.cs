@@ -80,6 +80,13 @@ public class InputManager : MonoBehaviour
         building = Resources.Load<GameObject>("_Prefabs/Buildings/Resources/WoodcutterHut");
         CameraController.Instance.SetBuilding(building);
     }
+    public void OnTreePlanterHouseButtonClick()
+    {
+        // Place code responsible for building a Simple House
+        CameraController.Instance.SetMouseMode(CameraController.MouseMode.BuildMode);
+        building = Resources.Load<GameObject>("_Prefabs/Buildings/Resources/TreePlanter");
+        CameraController.Instance.SetBuilding(building);
+    }
 
     public void OnSimpleHouseButtonClick()
     {
@@ -87,5 +94,6 @@ public class InputManager : MonoBehaviour
         CameraController.Instance.SetMouseMode(CameraController.MouseMode.BuildMode);
         building = Resources.Load<GameObject>("_Prefabs/Buildings/Homes/SimpleHome");
         CameraController.Instance.SetBuilding(building);
-    }    
+    }
+
 }
