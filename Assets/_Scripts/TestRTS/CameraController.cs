@@ -43,14 +43,7 @@ public class CameraController : MonoBehaviour
 
     private MouseMode MouseControlMode { get => mouseMode; set => mouseMode = value; }
 
-    public static CameraController Instance
-    {
-        get
-        {
-            return instance ? instance : (instance = (new GameObject("CameraController")).AddComponent<CameraController>());
-
-        }
-    }
+    public static CameraController Instance => instance ? instance : (instance = (new GameObject("CameraController")).AddComponent<CameraController>());
     private void Awake()
     {
         instance = this;
