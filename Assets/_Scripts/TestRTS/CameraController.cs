@@ -32,6 +32,9 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private GameObject building;
 
+
+    public GameObject wood;
+
     public enum MouseMode
     {
         NormalMode = 1,
@@ -43,14 +46,7 @@ public class CameraController : MonoBehaviour
 
     private MouseMode MouseControlMode { get => mouseMode; set => mouseMode = value; }
 
-    public static CameraController Instance
-    {
-        get
-        {
-            return instance ? instance : (instance = (new GameObject("CameraController")).AddComponent<CameraController>());
-
-        }
-    }
+    public static CameraController Instance => instance ? instance : (instance = (new GameObject("CameraController")).AddComponent<CameraController>());
     private void Awake()
     {
         instance = this;
@@ -109,6 +105,24 @@ public class CameraController : MonoBehaviour
             switch(MouseControlMode)
             {
                 case MouseMode.NormalMode:
+
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                        if (hit.collider.tag == "Resource")
+                        {
+                            if (hit.collider.name.Contains("Wood"))
+                            {
+                                hit.collider.gameObject.SetActive(false);
+                                GameObject go = hit.collider.gameObject;
+                                IResource res = go.GetComponent<IResource>();
+                                res.UseResource();
+                                
+                            }
+                        }
+                        
+                    }
                     break;
 
                 case MouseMode.BuildMode:
@@ -127,6 +141,13 @@ public class CameraController : MonoBehaviour
             switch (MouseControlMode)
             {
                 case MouseMode.NormalMode:
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                        Instantiate(wood, hit.point, Quaternion.Euler(0f, -45f, 0f));
+                        print(wood.name + " is spawned");
+                    }
                     break;
 
                 case MouseMode.BuildMode:
@@ -149,7 +170,7 @@ public class CameraController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
         {
-            Instantiate(building, hit.point, Quaternion.identity);
+            Instantiate(building, hit.point, Quaternion.Euler(0f, -45f,0f));
             print(building.name + " is spawned");
         }
     }
