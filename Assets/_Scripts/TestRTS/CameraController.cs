@@ -32,6 +32,9 @@ public class CameraController : MonoBehaviour
     [SerializeField]
     private GameObject building;
 
+
+    public GameObject wood;
+
     public enum MouseMode
     {
         NormalMode = 1,
@@ -102,6 +105,24 @@ public class CameraController : MonoBehaviour
             switch(MouseControlMode)
             {
                 case MouseMode.NormalMode:
+
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                        if (hit.collider.tag == "Resource")
+                        {
+                            if (hit.collider.name.Contains("Wood"))
+                            {
+                                hit.collider.gameObject.SetActive(false);
+                                GameObject go = hit.collider.gameObject;
+                                IResource res = go.GetComponent<IResource>();
+                                res.UseResource();
+                                
+                            }
+                        }
+                        
+                    }
                     break;
 
                 case MouseMode.BuildMode:
@@ -120,6 +141,13 @@ public class CameraController : MonoBehaviour
             switch (MouseControlMode)
             {
                 case MouseMode.NormalMode:
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    RaycastHit hit;
+                    if (Physics.Raycast(ray, out hit))
+                    {
+                        Instantiate(wood, hit.point, Quaternion.Euler(0f, -45f, 0f));
+                        print(wood.name + " is spawned");
+                    }
                     break;
 
                 case MouseMode.BuildMode:

@@ -1,18 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 
 public class ResourceManager : MonoBehaviour
 {
-
-    private int logs;
+    public TMP_Text woodCount;
+    private int wood;
     private int planks;
     private int stones;
 
     public static ResourceManager instance;
 
-    public int Logs { get => logs; set => logs = value; }
+    public int Wood { get => wood;
+        set 
+        {
+            wood = value;
+            woodCount.text = wood.ToString();
+        }
+    }
     public int Planks { get => planks; set => planks = value; }
     public int Stones { get => stones; set => stones = value; }
 
@@ -26,7 +31,7 @@ public class ResourceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Logs = 0;
+        Wood = 0;
         Planks = 0;
         Stones = 0;
     }

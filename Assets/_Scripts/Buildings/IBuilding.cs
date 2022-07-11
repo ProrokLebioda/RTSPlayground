@@ -1,4 +1,3 @@
-
 public delegate void Built(string name);
 
 public interface IBuilding
