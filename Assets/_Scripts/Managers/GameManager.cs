@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,16 +7,23 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         IBuilding.OnBuilt += FindCollonizer;
+
         IResource.OnCreated += IncreaseResource;
         IResource.OnUsed += DecreaseResource;
-    }
 
+        IUnit.OnUnitSpawned += AddedUnit;
+        IUnit.OnUnitRemoved += RemoveUnit;
+    }
 
     private void OnDisable()
     {
         IBuilding.OnBuilt -= FindCollonizer;
+
         IResource.OnCreated -= IncreaseResource;
         IResource.OnUsed -= DecreaseResource;
+
+        IUnit.OnUnitSpawned -= AddedUnit;
+        IUnit.OnUnitRemoved -= RemoveUnit;
     }
 
     private void FindCollonizer(string name)
@@ -34,6 +39,16 @@ public class GameManager : MonoBehaviour
     private void DecreaseResource(string name)
     {
         Debug.Log("Used resource" + name);
+        ResourceManager.Instance().Wood--;
+    }
+
+    private void AddedUnit(UnitType type)
+    {
+        Debug.Log("Unit spawned: " + type.ToString());
+    }
+    private void RemoveUnit(UnitType type)
+    {
+        Debug.Log("Unit removed: " + type.ToString());
     }
 
     // Start is called before the first frame update
