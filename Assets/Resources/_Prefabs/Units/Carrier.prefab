@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 538112497050204697}
   - component: {fileID: 538112497050204701}
   - component: {fileID: 240079052689410818}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Carrier
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 754ce3885b5a50949b4ef5120e3f34c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemCarried: {fileID: 0}
 --- !u!1 &6529562322282075102
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,7 +8,11 @@ public interface IBuilding
     float Health { get; set; }
     bool IsBuilt { get; set; }
     bool IsOccupied { get; set; }
+
+    // Amount of Input Stockpiles
     int InStockpiles { get; set; }
+
+    //Amount of Output Stockpiles
     int OutStockpiles { get; set; }
     ConstructionCosts ConstructionCost { get; set; }
 
@@ -18,12 +22,12 @@ public interface IBuilding
 
 public struct ConstructionCosts
 {
-    ConstructionCosts(int _wood, int _stone)
+    public ConstructionCosts(int _wood, int _stone)
     {
         Wood = _wood;
         Stone = _stone;
     }
 
-    int Wood { get; set; }
-    int Stone { get; set; }
+    public int Wood { get; set; }
+    public int Stone { get; set; }
 }

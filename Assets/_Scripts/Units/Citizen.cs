@@ -19,7 +19,8 @@ public class Citizen : MonoBehaviour, IUnit
     // Update is called once per frame
     void Update()
     {
-        
+        if (Health <= 0)
+            RemoveUnit();
     }
 
     public void SpawnUnit()

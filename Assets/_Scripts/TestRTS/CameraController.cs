@@ -114,12 +114,19 @@ public class CameraController : MonoBehaviour
                         {
                             if (hit.collider.name.Contains("Wood"))
                             {
-                                hit.collider.gameObject.SetActive(false);
                                 GameObject go = hit.collider.gameObject;
+                                go.SetActive(false);
                                 IResource res = go.GetComponent<IResource>();
                                 res.UseResource();
                                 
                             }
+                        }
+                        else if (hit.collider.tag == "Unit")
+                        {
+                            GameObject go = hit.collider.gameObject;
+                            go.SetActive(false);
+                            IUnit unit = go.GetComponent<IUnit>();
+                            unit.Health--;                            
                         }
                         
                     }

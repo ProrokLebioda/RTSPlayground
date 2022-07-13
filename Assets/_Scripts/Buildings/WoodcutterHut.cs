@@ -14,26 +14,31 @@ public class WoodcutterHut : MonoBehaviour, IBuilding
 
     private void OnEnable()
     {
-        Build();
+        
     }
 
 
     public void Build()
     {
 
-        for (int i = 0; i < 1000000; i++)
-        {
-
-        }
+        // Change when mechanics for building buildings from resources introduced
         IsBuilt = true;
-        if (IsBuilt)
-            IBuilding.OnBuilt("Woodcutter Hut");
+        Name = "Woodcutter's Hut";
+        Health = 1;
+        IsOccupied = false;
+        InStockpiles = 1;
+        OutStockpiles = 1;
+        
+        IBuilding.OnBuilt("Woodcutter Hut");
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        ConstructionCost = new ConstructionCosts(2, 1);
 
+        yield return new WaitForSeconds(0.1f);
+        Build();
     }
 
     // Update is called once per frame

@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     private void FindCollonizer(string name)
     {
         Debug.Log("Go find me someone for " + name);
+
     }
 
     private void IncreaseResource(string resourceName)
