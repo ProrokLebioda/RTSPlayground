@@ -6,7 +6,7 @@ public interface IUnit
     public static UnitRemove OnUnitRemoved;
     string Name { get; set; }
     float Health { get; set; }
-    UnitType Type { get; set; }
+    UnitType Type { get; }
     bool TakesAccomodation { get; }
 
     public void SpawnUnit();

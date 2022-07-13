@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Citizen : MonoBehaviour, IUnit
+public class Carrier : MonoBehaviour, IUnit
 {
     public string Name { get; set; }
     public float Health { get; set; }
-    public UnitType Type => UnitType.Citizen;
+    public UnitType Type => UnitType.Carrier;
 
-    public bool TakesAccomodation => true;
+    [SerializeField]
+    private GameObject itemCarried;
+
+    public bool TakesAccomodation => throw new System.NotImplementedException();
+    
+    
 
     // Start is called before the first frame update
     void Start()
@@ -25,7 +30,8 @@ public class Citizen : MonoBehaviour, IUnit
     public void SpawnUnit()
     {
         Health = 1;
-        Name = "Citizen";
+        Name = "Carrier";
+        itemCarried = null;
 
         IUnit.OnUnitSpawned(Type);
     }
