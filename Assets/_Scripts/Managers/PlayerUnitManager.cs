@@ -75,6 +75,7 @@ public class PlayerUnitManager : MonoBehaviour
                     if (!go.GetComponent<IUnit>().Workplace)
                     {
                         go.GetComponent<IUnit>().Workplace = building;
+                        building.GetComponent<IBuilding>().IsOccupied = true;
                         return true;
                     }
                 }
