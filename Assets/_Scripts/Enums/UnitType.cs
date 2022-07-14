@@ -1,6 +1,7 @@
 ﻿public enum UnitType
 {
-    Citizen = 0,
+    None = 0,
+    Citizen,
     Carrier,
     Builder,
     Treeplanter,

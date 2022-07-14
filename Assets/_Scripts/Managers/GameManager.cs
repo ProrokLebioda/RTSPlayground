@@ -3,10 +3,12 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject playerUnitsManager;
 
     private void OnEnable()
     {
-        IBuilding.OnBuilt += FindCollonizer;
+        IBuilding.OnBuilt += BuildingCreated;
 
         IResource.OnCreated += IncreaseResource;
         IResource.OnUsed += DecreaseResource;
@@ -17,7 +19,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable()
     {
-        IBuilding.OnBuilt -= FindCollonizer;
+        IBuilding.OnBuilt -= BuildingCreated;
 
         IResource.OnCreated -= IncreaseResource;
         IResource.OnUsed -= DecreaseResource;
@@ -26,10 +28,10 @@ public class GameManager : MonoBehaviour
         IUnit.OnUnitRemoved -= RemoveUnit;
     }
 
-    private void FindCollonizer(string name)
+    private void BuildingCreated(GameObject building)
     {
-        Debug.Log("Go find me someone for " + name);
-
+        Debug.Log("Go find me someone for " + building.name);
+        FindFreeLaborerForBuilding(building);
     }
 
     private void IncreaseResource(string resourceName)
@@ -62,5 +64,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    bool FindFreeLaborerForBuilding(GameObject building)
+    {
+        return playerUnitsManager.GetComponent<PlayerUnitManager>().FindFreeLaborerForBuilding(building); ;
     }
 }

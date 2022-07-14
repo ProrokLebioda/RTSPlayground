@@ -11,6 +11,7 @@ public class SimpleHome : MonoBehaviour, IBuilding
     public int InStockpiles { get; set; }
     public int OutStockpiles { get; set; }
     public ConstructionCosts ConstructionCost { get; set; }
+    public UnitType WantedUnitType => UnitType.None;
 
     private void OnEnable()
     {
@@ -27,7 +28,7 @@ public class SimpleHome : MonoBehaviour, IBuilding
         }
         IsBuilt = true;
         if (IsBuilt)
-            IBuilding.OnBuilt("Simple Home");
+            IBuilding.OnBuilt(gameObject);
     }
 
     // Start is called before the first frame update

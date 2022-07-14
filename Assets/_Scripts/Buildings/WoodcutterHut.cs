@@ -12,6 +12,8 @@ public class WoodcutterHut : MonoBehaviour, IBuilding
     public int OutStockpiles { get; set; }
     public ConstructionCosts ConstructionCost { get; set; }
 
+    public UnitType WantedUnitType => UnitType.Woodcutter;
+
     private void OnEnable()
     {
         
@@ -29,7 +31,7 @@ public class WoodcutterHut : MonoBehaviour, IBuilding
         InStockpiles = 1;
         OutStockpiles = 1;
         
-        IBuilding.OnBuilt("Woodcutter Hut");
+        IBuilding.OnBuilt(gameObject);
     }
 
     // Start is called before the first frame update

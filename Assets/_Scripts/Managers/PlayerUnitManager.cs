@@ -14,8 +14,9 @@ public class PlayerUnitManager : MonoBehaviour
     private int UsedAccomodation { set; get; }
 
     [SerializeField]
-    Dictionary<UnitType, int> UnitsInfoDictionary = new Dictionary<UnitType, int>();
+    public Dictionary<UnitType, int> UnitsInfoDictionary = new Dictionary<UnitType, int>();
 
+    
     private void OnEnable()
     {
         IUnit.OnUnitSpawned += AddToUnitsInfoDictionary;
@@ -55,5 +56,31 @@ public class PlayerUnitManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public bool FindFreeLaborerForBuilding(GameObject building)
+    {
+        
+        UnitType type = building.GetComponent<IBuilding>().WantedUnitType;
+        if (UnitsInfoDictionary.TryGetValue(type, out int value))
+        {
+            Debug.Log("Found " + type.ToString());
+            var gos = UnityEngine.GameObject.FindGameObjectsWithTag("Unit");
+            //UnityEngine.Object[] allObjects = UnityEngine.Object.FindObjectsOfType(typeof(IUnit));
+            
+            foreach (GameObject go in gos)
+            {
+                if (go.GetComponent<IUnit>().Type == type)
+                {
+                    if (!go.GetComponent<IUnit>().Workplace)
+                    {
+                        go.GetComponent<IUnit>().Workplace = building;
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -12,7 +12,7 @@ public class Woodcutter : MonoBehaviour, IUnit
     public bool TakesAccomodation => false;
 
     [SerializeField]
-    private GameObject Workplace;
+    public GameObject Workplace { get; set; }
 
 
 

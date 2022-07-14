@@ -7,9 +7,8 @@ public class Citizen : MonoBehaviour, IUnit
     public string Name { get; set; }
     public float Health { get; set; }
     public UnitType Type => UnitType.Citizen;
-
     public bool TakesAccomodation => true;
-
+    public GameObject Workplace { get; set; }
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +26,7 @@ public class Citizen : MonoBehaviour, IUnit
     {
         Health = 1;
         Name = "Citizen";
+        Workplace = null;
 
         IUnit.OnUnitSpawned(Type);
     }

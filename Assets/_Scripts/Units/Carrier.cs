@@ -11,9 +11,9 @@ public class Carrier : MonoBehaviour, IUnit
     [SerializeField]
     private GameObject itemCarried;
 
-    public bool TakesAccomodation => throw new System.NotImplementedException();
+    public bool TakesAccomodation => true;
     
-    
+    public GameObject Workplace { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -33,6 +33,7 @@ public class Carrier : MonoBehaviour, IUnit
         Health = 1;
         Name = "Carrier";
         itemCarried = null;
+        Workplace = null;
 
         IUnit.OnUnitSpawned(Type);
     }
