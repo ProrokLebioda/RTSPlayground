@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Citizen : MonoBehaviour, IUnit
 {
@@ -9,6 +10,11 @@ public class Citizen : MonoBehaviour, IUnit
     public UnitType Type => UnitType.Citizen;
     public bool TakesAccomodation => true;
     public GameObject Workplace { get; set; }
+
+    public UnitState CurrentUnitState { get; set; }
+
+    public Vector3 TargetPosition { get; set; }
+    public NavMeshAgent MyNavMeshAgent;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +33,9 @@ public class Citizen : MonoBehaviour, IUnit
         Health = 1;
         Name = "Citizen";
         Workplace = null;
+        CurrentUnitState = UnitState.Idle;
+
+        MyNavMeshAgent = GetComponent<NavMeshAgent>();
 
         IUnit.OnUnitSpawned(Type);
     }
@@ -35,5 +44,24 @@ public class Citizen : MonoBehaviour, IUnit
     {
         IUnit.OnUnitRemoved(Type);
         Destroy(this);
+    }
+
+    public void Work()
+    {
+
+    }
+    public void ChangeUnitState(UnitState state)
+    {
+        CurrentUnitState = state;
+    }
+
+    public void SetTargetPosition(Vector3 targetPosition)
+    {
+        TargetPosition = targetPosition;
+    }
+
+    public void MoveUnitToPosition(Vector3 position)
+    {
+        MyNavMeshAgent.SetDestination(position);
     }
 }

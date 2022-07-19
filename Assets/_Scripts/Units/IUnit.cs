@@ -8,11 +8,25 @@ public interface IUnit
     public static UnitRemove OnUnitRemoved;
     string Name { get; set; }
     float Health { get; set; }
+    UnitState CurrentUnitState { get; set; }
     UnitType Type { get; }
     bool TakesAccomodation { get; }
 
+    Vector3 TargetPosition { get; set; }
+
     GameObject Workplace { get; set; }
+
 
     public void SpawnUnit();
     public void RemoveUnit();
+
+    /// <summary>
+    /// Basic work loop for unit
+    /// </summary>
+    public void Work();
+    public void ChangeUnitState(UnitState state);
+
+    public void SetTargetPosition(Vector3 targetPosition);
+
+    public void MoveUnitToPosition(Vector3 position);
 }

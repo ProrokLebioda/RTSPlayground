@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Woodcutter : MonoBehaviour, IUnit
 {
     public string Name { get; set; }
     public float Health { get; set; }
+    public UnitState CurrentUnitState { get; set; }
 
     public UnitType Type => UnitType.Woodcutter;
 
@@ -14,7 +16,8 @@ public class Woodcutter : MonoBehaviour, IUnit
     [SerializeField]
     public GameObject Workplace { get; set; }
 
-
+    public Vector3 TargetPosition { get; set; }
+    public NavMeshAgent MyNavMeshAgent;
 
     // Start is called before the first frame update
     void Start()
@@ -27,6 +30,40 @@ public class Woodcutter : MonoBehaviour, IUnit
     {
         if (Health <= 0)
             RemoveUnit();
+
+        if (Workplace)
+        {
+            switch (CurrentUnitState)
+            {
+                case UnitState.Idle:
+                    // Go to workplace
+
+                    MoveUnitToPosition(Workplace.transform.position);
+                    ChangeUnitState(UnitState.Move);
+                    break;
+
+                case UnitState.Move:
+
+                    break;
+                case UnitState.Work:
+                    
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+    public void SpawnUnit()
+    {
+        Health = 1;
+        Name = "Woodcutter";
+        Workplace = null;
+        CurrentUnitState = UnitState.Idle;
+
+        MyNavMeshAgent = GetComponent<NavMeshAgent>();
+
+        IUnit.OnUnitSpawned(Type);
     }
 
     public void RemoveUnit()
@@ -35,12 +72,24 @@ public class Woodcutter : MonoBehaviour, IUnit
         Destroy(this);
     }
 
-    public void SpawnUnit()
+
+    public void Work()
     {
-        Health = 1;
-        Name = "Woodcutter";
-        Workplace = null;
-        
-        IUnit.OnUnitSpawned(Type);
+
+    }
+
+    public void ChangeUnitState(UnitState state)
+    {
+        CurrentUnitState = state;
+    }
+
+    public void SetTargetPosition(Vector3 targetPosition)
+    {
+        TargetPosition = targetPosition;
+    }
+
+    public void MoveUnitToPosition(Vector3 position)
+    {
+        MyNavMeshAgent.SetDestination(position);
     }
 }
