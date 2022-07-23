@@ -34,14 +34,14 @@ public class GameManager : MonoBehaviour
         FindFreeLaborerForBuilding(building);
     }
 
-    private void IncreaseResource(string resourceName)
+    private void IncreaseResource(ResourceType resType)
     {
-        Debug.Log("Created " + resourceName + " resource");
+        Debug.Log("Created " + resType.ToString() + " resource");
         ResourceManager.Instance().Wood++;
     }
-    private void DecreaseResource(string name)
+    private void DecreaseResource(ResourceType resType)
     {
-        Debug.Log("Used resource" + name);
+        Debug.Log("Used resource" + resType.ToString());
         ResourceManager.Instance().Wood--;
     }
 

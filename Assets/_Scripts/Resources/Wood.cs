@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Wood : MonoBehaviour, IResource
 {
+    public ResourceType resourceType { get => ResourceType.Wood; }
+
     // done as an courutine to help fix issue of not registered spawn, perhaps all resources should have it
     // or maybe should be fixed in other way. Problems might occur when added Save option
     IEnumerator Start()
@@ -26,12 +28,12 @@ public class Wood : MonoBehaviour, IResource
     }
     public void CreateResource()
     {
-        IResource.OnCreated("Wood");
+        IResource.OnCreated(resourceType);
     }
 
     public void UseResource()
     {
-        IResource.OnUsed("Wood");
+        IResource.OnUsed(resourceType);
         Destroy(this);
     }
         

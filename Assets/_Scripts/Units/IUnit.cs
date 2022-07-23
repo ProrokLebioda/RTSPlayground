@@ -16,6 +16,7 @@ public interface IUnit
 
     GameObject Workplace { get; set; }
 
+    GameObject carriedResource { get; set; }
 
     public void SpawnUnit();
     public void RemoveUnit();
