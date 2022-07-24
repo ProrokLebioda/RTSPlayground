@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 538112497050204697}
   - component: {fileID: 538112497050204701}
   - component: {fileID: 1522516653027576171}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: Citizen
   m_TagString: Unit
   m_Icon: {fileID: 0}
@@ -135,6 +135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59b9cf73db4b384480ebb824ed7a2f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MyNavMeshAgent: {fileID: 0}
 --- !u!1 &3719677978265153648
 GameObject:
   m_ObjectHideFlags: 0

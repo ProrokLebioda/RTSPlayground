@@ -13,6 +13,8 @@ public class WoodcutterHut : MonoBehaviour, IBuilding
     public ConstructionCosts ConstructionCost { get; set; }
 
     public UnitType WantedUnitType => UnitType.Woodcutter;
+    public GameObject Entrance { get; set; }
+    public float BuildingRadius { get; set; }
 
     private void OnEnable()
     {
@@ -30,6 +32,8 @@ public class WoodcutterHut : MonoBehaviour, IBuilding
         IsOccupied = false;
         InStockpiles = 1;
         OutStockpiles = 1;
+        Entrance = transform.Find("Entrance").gameObject;
+        BuildingRadius = 10.0f;
         
         IBuilding.OnBuilt(gameObject);
     }
@@ -48,4 +52,5 @@ public class WoodcutterHut : MonoBehaviour, IBuilding
     {
 
     }
+
 }

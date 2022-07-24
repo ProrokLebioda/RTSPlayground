@@ -21,6 +21,7 @@ public class Carrier : MonoBehaviour, IUnit
     public NavMeshAgent MyNavMeshAgent;
 
     public GameObject carriedResource { get; set; }
+    public bool IsInBuilding { get; set; }
 
     // Start is called before the first frame update
     void Start()

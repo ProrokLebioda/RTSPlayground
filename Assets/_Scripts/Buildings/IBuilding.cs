@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public delegate void Built(UnityEngine.GameObject building);
 
 public interface IBuilding
@@ -15,8 +17,12 @@ public interface IBuilding
     //Amount of Output Stockpiles
     int OutStockpiles { get; set; }
     ConstructionCosts ConstructionCost { get; set; }
+    GameObject Entrance { get; set; }
+
+    float BuildingRadius { get; set; }
 
     UnitType WantedUnitType { get; }
+
 
     public void Build();
 }

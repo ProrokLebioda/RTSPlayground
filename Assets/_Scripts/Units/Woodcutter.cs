@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,10 @@ public class Woodcutter : MonoBehaviour, IUnit
     public Vector3 TargetPosition { get; set; }
     public NavMeshAgent MyNavMeshAgent;
     public GameObject carriedResource { get; set; }
+    public bool IsInBuilding { get; set; }
+
+    ///
+
 
     // Start is called before the first frame update
     void Start()
@@ -37,17 +42,38 @@ public class Woodcutter : MonoBehaviour, IUnit
             switch (CurrentUnitState)
             {
                 case UnitState.Idle:
-                    // Go to workplace
-
-                    MoveUnitToPosition(Workplace.transform.position);
-                    ChangeUnitState(UnitState.Move);
+                    // Go to workplace, this state is usually when first converted to unit type
+                    if (!IsInBuilding)
+                    {
+                        SetTargetPosition(Workplace.GetComponent<IBuilding>().Entrance.transform.position);
+                        ChangeUnitState(UnitState.Move);
+                    }
+                    else if (HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius,out Vector3 treePosition))
+                    {
+                        SetTargetPosition(treePosition);
+                        ChangeUnitState(UnitState.Work);
+                        
+                    }
                     break;
 
                 case UnitState.Move:
+                    if (IsInBuilding)
+                    {
+                        ChangeUnitState(UnitState.Idle);
+                        //GetComponent<CapsuleCollider>().enabled = true;
+                        //GetComponent<NavMeshAgent>().enabled = true;
+                        
+                        //MoveUnitToPosition(TargetPosition);
+                        
+                    }
+                    else
+                    {
+                        MoveUnitToPosition(TargetPosition);
+                    }
 
                     break;
                 case UnitState.Work:
-                    
+                    MoveUnitToPosition(TargetPosition);
                     break;
 
                 default:
@@ -55,13 +81,27 @@ public class Woodcutter : MonoBehaviour, IUnit
             }
         }
     }
+
+    private bool HasTreesInRange(Vector3 center, float radius, out Vector3 foundTreePosition)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+        foreach (var hitCollider in hitColliders)
+        {
+            foundTreePosition = hitCollider.transform.position;
+            Debug.Log("Found tree. Position: " + foundTreePosition.ToString());
+            return true;
+        }
+        foundTreePosition = new Vector3();
+        return false;
+    }
+
     public void SpawnUnit()
     {
         Health = 1;
         Name = "Woodcutter";
         Workplace = null;
         CurrentUnitState = UnitState.Idle;
-
+        IsInBuilding = false;
         MyNavMeshAgent = GetComponent<NavMeshAgent>();
 
         IUnit.OnUnitSpawned(Type);

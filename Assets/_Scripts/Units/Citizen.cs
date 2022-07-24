@@ -16,6 +16,8 @@ public class Citizen : MonoBehaviour, IUnit
     public Vector3 TargetPosition { get; set; }
     public NavMeshAgent MyNavMeshAgent;
     public GameObject carriedResource { get; set; }
+    public bool IsInBuilding { get; set; }
+
     // Start is called before the first frame update
     void Start()
     {

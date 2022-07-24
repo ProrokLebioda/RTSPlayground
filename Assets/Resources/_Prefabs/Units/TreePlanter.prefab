@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 538112497050204697}
   - component: {fileID: 538112497050204701}
   - component: {fileID: 538112497050204700}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: TreePlanter
   m_TagString: Unit
   m_Icon: {fileID: 0}

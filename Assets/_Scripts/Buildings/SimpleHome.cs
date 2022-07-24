@@ -12,6 +12,8 @@ public class SimpleHome : MonoBehaviour, IBuilding
     public int OutStockpiles { get; set; }
     public ConstructionCosts ConstructionCost { get; set; }
     public UnitType WantedUnitType => UnitType.None;
+    public GameObject Entrance { get; set; }
+    public float BuildingRadius { get; set; }
 
     private void OnEnable()
     {

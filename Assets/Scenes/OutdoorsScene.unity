@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 2157.8506, g: 2262.3848, b: 3286.1914, a: 1}
+  m_IndirectSpecularColor: {r: 2158.4854, g: 2263.1875, b: 3286.668, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2356,6 +2356,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 538112497050204697, guid: 1f59a4597a614d745bf25bc57f791b1a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 538112497050204698, guid: 1f59a4597a614d745bf25bc57f791b1a,
         type: 3}
       propertyPath: m_Name
@@ -9598,6 +9603,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 538112497050204697, guid: 1f59a4597a614d745bf25bc57f791b1a,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 538112497050204698, guid: 1f59a4597a614d745bf25bc57f791b1a,
         type: 3}
       propertyPath: m_Name
@@ -9658,6 +9668,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7517441070473124476, guid: 1f59a4597a614d745bf25bc57f791b1a,
+        type: 3}
+      propertyPath: TreeTransf
+      value: 
+      objectReference: {fileID: 1822363055}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1f59a4597a614d745bf25bc57f791b1a, type: 3}
 --- !u!1 &1954819856

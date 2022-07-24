@@ -11,7 +11,7 @@ public interface IUnit
     UnitState CurrentUnitState { get; set; }
     UnitType Type { get; }
     bool TakesAccomodation { get; }
-
+    bool IsInBuilding { get; set; }
     Vector3 TargetPosition { get; set; }
 
     GameObject Workplace { get; set; }
