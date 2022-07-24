@@ -12,28 +12,39 @@ public class WoodcutterHut : MonoBehaviour, IBuilding
     public int OutStockpiles { get; set; }
     public ConstructionCosts ConstructionCost { get; set; }
 
+    public UnitType WantedUnitType => UnitType.Woodcutter;
+    public GameObject Entrance { get; set; }
+    public float BuildingRadius { get; set; }
+
     private void OnEnable()
     {
-        Build();
+        
     }
 
 
     public void Build()
     {
 
-        for (int i = 0; i < 1000000; i++)
-        {
-
-        }
+        // Change when mechanics for building buildings from resources introduced
         IsBuilt = true;
-        if (IsBuilt)
-            IBuilding.OnBuilt("Woodcutter Hut");
+        Name = "Woodcutter's Hut";
+        Health = 1;
+        IsOccupied = false;
+        InStockpiles = 1;
+        OutStockpiles = 1;
+        Entrance = transform.Find("Entrance").gameObject;
+        BuildingRadius = 10.0f;
+        
+        IBuilding.OnBuilt(gameObject);
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
+        ConstructionCost = new ConstructionCosts(2, 1);
 
+        yield return new WaitForSeconds(0.1f);
+        Build();
     }
 
     // Update is called once per frame
@@ -41,4 +52,5 @@ public class WoodcutterHut : MonoBehaviour, IBuilding
     {
 
     }
+
 }
