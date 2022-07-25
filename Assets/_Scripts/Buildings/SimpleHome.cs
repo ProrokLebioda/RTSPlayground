@@ -2,26 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SimpleHome : MonoBehaviour, IBuilding
+public class SimpleHome : BuildingTemplate
 {
-    public string Name { get; set; }
-    public float Health { get; set; }
-    public bool IsBuilt { get;  set; }
-    public bool IsOccupied { get; set; }
-    public int InStockpiles { get; set; }
-    public int OutStockpiles { get; set; }
-    public ConstructionCosts ConstructionCost { get; set; }
-    public UnitType WantedUnitType => UnitType.None;
-    public GameObject Entrance { get; set; }
-    public float BuildingRadius { get; set; }
-
     private void OnEnable()
     {
         Build();
     }
 
 
-    public void Build()
+    public override void Build()
     {
 
         for (int i = 0; i < 1000000; i++)

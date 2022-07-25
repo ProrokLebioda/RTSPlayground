@@ -70,12 +70,12 @@ public class PlayerUnitManager : MonoBehaviour
             
             foreach (GameObject go in gos)
             {
-                if (go.GetComponent<IUnit>().Type == type)
+                if (go.GetComponent<UnitTemplate>().Type == type)
                 {
-                    if (!go.GetComponent<IUnit>().Workplace)
+                    if (!go.GetComponent<UnitTemplate>().Workplace)
                     {
-                        go.GetComponent<IUnit>().Workplace = building;
-                        building.GetComponent<IBuilding>().IsOccupied = true;
+                        go.GetComponent<UnitTemplate>().Workplace = building;
+                        building.GetComponent<BuildingTemplate>().IsOccupied = true;
                         return true;
                     }
                 }

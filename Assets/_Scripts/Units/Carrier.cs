@@ -3,26 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Carrier : MonoBehaviour, IUnit
+public class Carrier : UnitTemplate
 {
-    public string Name { get; set; }
-    public float Health { get; set; }
-    public UnitType Type => UnitType.Carrier;
-
-    [SerializeField]
-    private GameObject itemCarried;
-
-    public bool TakesAccomodation => true;
-    
-    public GameObject Workplace { get; set; }
-    public UnitState CurrentUnitState { get; set; }
-
-    public Vector3 TargetPosition { get; set; }
-    public NavMeshAgent MyNavMeshAgent;
-
-    public GameObject carriedResource { get; set; }
-    public bool IsInBuilding { get; set; }
-
     // Start is called before the first frame update
     void Start()
     {
@@ -36,42 +18,16 @@ public class Carrier : MonoBehaviour, IUnit
             RemoveUnit();
     }
 
-    public void SpawnUnit()
+    public override void SpawnUnit()
     {
         Health = 1;
         Name = "Carrier";
-        itemCarried = null;
+        CarriedResource = null;
         Workplace = null;
         CurrentUnitState = UnitState.Idle;
-
+        Type = UnitType.Carrier;
         MyNavMeshAgent = GetComponent<NavMeshAgent>();
 
         IUnit.OnUnitSpawned(Type);
-    }
-
-    public void RemoveUnit()
-    {
-        IUnit.OnUnitRemoved(Type);
-        Destroy(this);
-    }
-
-    public void Work()
-    {
-
-    }
-
-    public void ChangeUnitState(UnitState state)
-    {
-        CurrentUnitState = state;
-    }
-
-    public void SetTargetPosition(Vector3 targetPosition)
-    {
-        TargetPosition = targetPosition;
-    }
-
-    public void MoveUnitToPosition(Vector3 position)
-    {
-        MyNavMeshAgent.SetDestination(position);
     }
 }
