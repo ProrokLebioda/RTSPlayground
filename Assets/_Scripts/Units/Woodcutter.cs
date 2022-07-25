@@ -4,27 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Woodcutter : MonoBehaviour, IUnit
+public class Woodcutter : UnitTemplate
 {
-    public string Name { get; set; }
-    public float Health { get; set; }
-    public UnitState CurrentUnitState { get; set; }
-
-    public UnitType Type => UnitType.Woodcutter;
-
-    public bool TakesAccomodation => false;
-
-    [SerializeField]
-    public GameObject Workplace { get; set; }
-
-    public Vector3 TargetPosition { get; set; }
-    public NavMeshAgent MyNavMeshAgent;
-    public GameObject carriedResource { get; set; }
-    public bool IsInBuilding { get; set; }
-
-    ///
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -85,52 +66,37 @@ public class Woodcutter : MonoBehaviour, IUnit
     private bool HasTreesInRange(Vector3 center, float radius, out Vector3 foundTreePosition)
     {
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+        foundTreePosition = new Vector3(float.MinValue, float.MinValue, float.MinValue);
+
         foreach (var hitCollider in hitColliders)
         {
-            foundTreePosition = hitCollider.transform.position;
-            Debug.Log("Found tree. Position: " + foundTreePosition.ToString());
-            return true;
+            var tg = hitCollider.gameObject.GetComponent<TreeGrowing>();
+            if (tg)
+            {
+                foundTreePosition = hitCollider.transform.position;
+                Debug.Log("Found tree. Position: " + foundTreePosition.ToString());
+                return true;
+            }
         }
-        foundTreePosition = new Vector3();
+        
         return false;
     }
 
-    public void SpawnUnit()
+    public override void SpawnUnit()
     {
         Health = 1;
         Name = "Woodcutter";
         Workplace = null;
         CurrentUnitState = UnitState.Idle;
         IsInBuilding = false;
+        Type = UnitType.Woodcutter;
         MyNavMeshAgent = GetComponent<NavMeshAgent>();
 
         IUnit.OnUnitSpawned(Type);
     }
 
-    public void RemoveUnit()
-    {
-        IUnit.OnUnitRemoved(Type);
-        Destroy(this);
-    }
-
-
-    public void Work()
+    public override void Work()
     {
 
-    }
-
-    public void ChangeUnitState(UnitState state)
-    {
-        CurrentUnitState = state;
-    }
-
-    public void SetTargetPosition(Vector3 targetPosition)
-    {
-        TargetPosition = targetPosition;
-    }
-
-    public void MoveUnitToPosition(Vector3 position)
-    {
-        MyNavMeshAgent.SetDestination(position);
-    }
+    }    
 }

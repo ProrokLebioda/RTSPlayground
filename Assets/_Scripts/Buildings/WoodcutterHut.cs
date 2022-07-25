@@ -2,40 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WoodcutterHut : MonoBehaviour, IBuilding
+public class WoodcutterHut : BuildingTemplate
 {
-    public string Name { get; set; }
-    public float Health { get; set; }
-    public bool IsBuilt { get; set; }
-    public bool IsOccupied { get; set; }
-    public int InStockpiles { get; set; }
-    public int OutStockpiles { get; set; }
-    public ConstructionCosts ConstructionCost { get; set; }
-
-    public UnitType WantedUnitType => UnitType.Woodcutter;
-    public GameObject Entrance { get; set; }
-    public float BuildingRadius { get; set; }
+    
 
     private void OnEnable()
     {
         
-    }
-
-
-    public void Build()
-    {
-
-        // Change when mechanics for building buildings from resources introduced
-        IsBuilt = true;
-        Name = "Woodcutter's Hut";
-        Health = 1;
-        IsOccupied = false;
-        InStockpiles = 1;
-        OutStockpiles = 1;
-        Entrance = transform.Find("Entrance").gameObject;
-        BuildingRadius = 10.0f;
-        
-        IBuilding.OnBuilt(gameObject);
     }
 
     // Start is called before the first frame update
@@ -52,5 +25,23 @@ public class WoodcutterHut : MonoBehaviour, IBuilding
     {
 
     }
+    public override void Build()
+    {
+
+        // Change when mechanics for building buildings from resources introduced
+        IsBuilt = true;
+        Name = "Woodcutter's Hut";
+        Health = 1;
+        IsOccupied = false;
+        InStockpiles = 1;
+        OutStockpiles = 1;
+        Entrance = transform.Find("Entrance").gameObject;
+        BuildingRadius = 100.0f;
+        WantedUnitType = UnitType.Woodcutter;
+
+
+        IBuilding.OnBuilt(gameObject);
+    }
+
 
 }

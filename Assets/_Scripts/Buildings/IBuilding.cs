@@ -21,10 +21,10 @@ public interface IBuilding
 
     float BuildingRadius { get; set; }
 
-    UnitType WantedUnitType { get; }
+    UnitType WantedUnitType { get; set; }
 
 
-    public void Build();
+    public abstract void Build();
 }
 
 
