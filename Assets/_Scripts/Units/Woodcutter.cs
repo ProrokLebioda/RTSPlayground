@@ -23,17 +23,20 @@ public class Woodcutter : UnitTemplate
             switch (CurrentUnitState)
             {
                 case UnitState.Idle:
+                    IsMoving = false;
                     // Go to workplace, this state is usually when first converted to unit type
                     if (!IsInBuilding)
                     {
                         SetTargetPosition(Workplace.GetComponent<IBuilding>().Entrance.transform.position);
                         ChangeUnitState(UnitState.Move);
+                        IsMoving = true;
                     }
-                    else if (HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius,out Vector3 treePosition))
+                    else if (!CarriedResource && HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius,out Vector3 treePosition))
                     {
                         SetTargetPosition(treePosition);
                         ChangeUnitState(UnitState.Work);
-                        
+                        IsMoving = true;
+
                     }
                     break;
 
@@ -41,6 +44,7 @@ public class Woodcutter : UnitTemplate
                     if (IsInBuilding)
                     {
                         ChangeUnitState(UnitState.Idle);
+                        IsMoving = true;
                         //GetComponent<CapsuleCollider>().enabled = true;
                         //GetComponent<NavMeshAgent>().enabled = true;
                         
@@ -50,17 +54,43 @@ public class Woodcutter : UnitTemplate
                     else
                     {
                         MoveUnitToPosition(TargetPosition);
+                        IsMoving = true;
                     }
 
                     break;
                 case UnitState.Work:
                     MoveUnitToPosition(TargetPosition);
+                    
+                    if (!IsMoving)
+                    {
+                        Debug.Log(gameObject.name + " works now");
+                        StartCoroutine(CutDownTree());
+                        
+                    }
+                    else if (!IsInBuilding)
+                    { 
+                        float distanceToTargetTree = MyNavMeshAgent.remainingDistance;
+                        if (distanceToTargetTree <= 0.3f)
+                        {
+                            Debug.Log(gameObject.name + " reached tree");
+                            IsMoving = false;
+                            MyNavMeshAgent.isStopped = true;
+                        }
+                    }
                     break;
 
                 default:
                     break;
             }
         }
+    }
+
+    private IEnumerator CutDownTree()
+    {
+        yield return new WaitForSeconds(1f);        
+        Debug.Log("Tree cut");
+        ChangeUnitState(UnitState.Idle);
+        MyNavMeshAgent.isStopped = false;
     }
 
     private bool HasTreesInRange(Vector3 center, float radius, out Vector3 foundTreePosition)
@@ -89,6 +119,7 @@ public class Woodcutter : UnitTemplate
         Workplace = null;
         CurrentUnitState = UnitState.Idle;
         IsInBuilding = false;
+        IsMoving = false;
         Type = UnitType.Woodcutter;
         MyNavMeshAgent = GetComponent<NavMeshAgent>();
 

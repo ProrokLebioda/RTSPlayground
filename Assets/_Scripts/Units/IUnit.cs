@@ -12,6 +12,7 @@ public interface IUnit
     UnitType Type { get; set; }
     bool TakesAccomodation { get; }
     bool IsInBuilding { get; set; }
+    bool IsMoving { get; set; }
     Vector3 TargetPosition { get; set; }
 
     GameObject Workplace { get; set; }

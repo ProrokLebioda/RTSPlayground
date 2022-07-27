@@ -16,6 +16,7 @@ public class UnitTemplate : MonoBehaviour, IUnit
     public UnityEngine.AI.NavMeshAgent MyNavMeshAgent;
     public GameObject CarriedResource { get; set; }
     public bool IsInBuilding { get; set; }
+    public bool IsMoving { get; set; }
 
     // Start is called before the first frame update
     void Start()
