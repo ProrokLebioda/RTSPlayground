@@ -5,17 +5,29 @@ using UnityEngine.AI;
 
 public class EntranceLogic : MonoBehaviour
 {
+    private GameObject parentBuilding;
+
+    private void Start()
+    {
+        parentBuilding = gameObject.transform.parent.gameObject;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Trigger Enter");
         if (other.gameObject.tag == "Unit")
         {
-            foreach (var meshRenderer in other.gameObject.GetComponentsInChildren<MeshRenderer>())
+            IUnit unit = other.gameObject.GetComponent<IUnit>();
+            if (unit.Workplace.Equals(parentBuilding))
             {
-                meshRenderer.enabled = false;
+                other.gameObject.GetComponent<IUnit>().IsInBuilding = true;
+                foreach (var meshRenderer in other.gameObject.GetComponentsInChildren<MeshRenderer>())
+                {
+                    meshRenderer.enabled = false;
+                }
+                //other.gameObject.GetComponent<CapsuleCollider>().enabled = false;
             }
-            //other.gameObject.GetComponent<CapsuleCollider>().enabled = false;
-            other.gameObject.GetComponent<IUnit>().IsInBuilding = true;
+            
         }
     }
 
@@ -24,12 +36,16 @@ public class EntranceLogic : MonoBehaviour
         Debug.Log("Trigger Exit");
         if (other.gameObject.tag == "Unit")
         {
-            foreach (var meshRenderer in other.gameObject.GetComponentsInChildren<MeshRenderer>())
+            IUnit unit = other.gameObject.GetComponent<IUnit>();
+            if (unit.Workplace.Equals(parentBuilding))
             {
-                meshRenderer.enabled = true;
+                other.gameObject.GetComponent<IUnit>().IsInBuilding = false;
+                foreach (var meshRenderer in other.gameObject.GetComponentsInChildren<MeshRenderer>())
+                {
+                    meshRenderer.enabled = true;
+                }
+                //other.gameObject.GetComponent<CapsuleCollider>().enabled = false;
             }
-            //other.gameObject.GetComponent<CapsuleCollider>().enabled = false;
-            other.gameObject.GetComponent<IUnit>().IsInBuilding = false;
         }
     }
 

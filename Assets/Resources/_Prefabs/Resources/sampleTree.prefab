@@ -244,3 +244,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62e9cdd2cb9d7ba4b951aabdc7af2031, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentHP: 0
+  treelog: {fileID: 7598547927330682409, guid: c71ac7946377a2340b87e9a4080a0958, type: 3}
+  growthStage: 0

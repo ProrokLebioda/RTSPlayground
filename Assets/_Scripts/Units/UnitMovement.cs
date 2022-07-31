@@ -16,6 +16,7 @@ public class UnitMovement : MonoBehaviour
     {
 
     }
+
     public void SetDestinationToWorldPosition(Vector3 worldPosition)
     {
         myNavMeshAgent.SetDestination(worldPosition);
