@@ -5,7 +5,7 @@ using UnityEngine;
 public class UnitTemplate : MonoBehaviour, IUnit
 {
     public string Name { get; set; }
-    public float Health { get; set; }
+    public int Health { get; set; }
     public UnitType Type { get; set; }
     public bool TakesAccomodation => true;
     public GameObject Workplace { get; set; }
@@ -68,6 +68,28 @@ public class UnitTemplate : MonoBehaviour, IUnit
     public virtual void MoveUnitToPosition(Vector3 position)
     {
         MyNavMeshAgent.SetDestination(position);
+    }
+
+    public virtual void PickupItem(ResourceType resourceType)
+    {
+        //pickup item, find closest 
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1f);
+        //foundTreePosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        
+        GameObject treeGO = null;
+        foreach (var hitCollider in hitColliders)
+        {
+            IResource tg = hitCollider.gameObject.GetComponent<IResource>();
+            if (tg != null && !tg.IsInUse)
+            {
+                hitCollider.transform.position += new Vector3(0, 1f, 0); 
+                hitCollider.transform.parent = this.transform;
+                hitCollider.transform.localRotation = Quaternion.identity;
+                tg.IsInUse = true;
+                CarriedResource = hitCollider.gameObject;
+            }
+        }
+
     }
 }
 

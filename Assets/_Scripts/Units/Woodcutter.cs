@@ -6,6 +6,9 @@ using UnityEngine.AI;
 
 public class Woodcutter : UnitTemplate
 {
+    bool isCuttingTree;
+
+    private GameObject treeRef;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,19 +27,31 @@ public class Woodcutter : UnitTemplate
             {
                 case UnitState.Idle:
                     IsMoving = false;
+                    
                     // Go to workplace, this state is usually when first converted to unit type
                     if (!IsInBuilding)
                     {
                         SetTargetPosition(Workplace.GetComponent<IBuilding>().Entrance.transform.position);
                         ChangeUnitState(UnitState.Move);
                         IsMoving = true;
+                        MyNavMeshAgent.isStopped = false;
                     }
                     else if (!CarriedResource && HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius,out Vector3 treePosition))
                     {
                         SetTargetPosition(treePosition);
                         ChangeUnitState(UnitState.Work);
                         IsMoving = true;
-
+                        MyNavMeshAgent.isStopped = false;
+                    }
+                    else if (CarriedResource)
+                    {
+                        IResource resource = CarriedResource.GetComponent<IResource>();
+                        if (resource != null)
+                        {
+                            resource.UseResource();
+                            CarriedResource.transform.parent = null;
+                            CarriedResource = null;
+                        }
                     }
                     break;
 
@@ -60,19 +75,41 @@ public class Woodcutter : UnitTemplate
                     break;
                 case UnitState.Work:
                     MoveUnitToPosition(TargetPosition);
-                    
-                    if (!IsMoving)
+
+                    if (!IsMoving && !isCuttingTree)
                     {
-                        Debug.Log(gameObject.name + " works now");
+                        isCuttingTree = true;
+
                         StartCoroutine(CutDownTree());
-                        
+
+
+                    }
+                    else if (!IsMoving && isCuttingTree)
+                    {
+                        if (!treeRef)
+                        {
+                            // Tree was cut
+                            //ChangeUnitState(UnitState.Idle);
+
+                            //pickup tree
+                            PickupItem(ResourceType.Wood);
+                            ChangeUnitState(UnitState.Idle);
+                            isCuttingTree = false;
+                        }
+                        else
+                        {
+                            StartCoroutine(CutDownTree());
+                        }
+                        //when tree cut
+                        //
+
                     }
                     else if (!IsInBuilding)
                     { 
                         float distanceToTargetTree = MyNavMeshAgent.remainingDistance;
                         if (distanceToTargetTree <= 0.3f)
                         {
-                            Debug.Log(gameObject.name + " reached tree");
+                            //Debug.Log(gameObject.name + " reached tree");
                             IsMoving = false;
                             MyNavMeshAgent.isStopped = true;
                         }
@@ -88,27 +125,50 @@ public class Woodcutter : UnitTemplate
     private IEnumerator CutDownTree()
     {
         yield return new WaitForSeconds(1f);        
-        Debug.Log("Tree cut");
-        ChangeUnitState(UnitState.Idle);
-        MyNavMeshAgent.isStopped = false;
+        //Debug.Log("Tree cut");
+        
+        
+        
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position+new Vector3(0,0,1), 2);
+        foreach (var hitCollider in hitColliders)
+        {            
+            if (hitCollider.TryGetComponent<TreeGrowing>(out TreeGrowing tree))
+            {
+                tree.Damage(1);
+            }
+        }            
     }
 
     private bool HasTreesInRange(Vector3 center, float radius, out Vector3 foundTreePosition)
     {
         Collider[] hitColliders = Physics.OverlapSphere(center, radius);
-        foundTreePosition = new Vector3(float.MinValue, float.MinValue, float.MinValue);
-
+        foundTreePosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        float closestTreeDistance = float.MaxValue;
+        float currentTreeDistance = float.MaxValue;
+        GameObject treeGO = null;
         foreach (var hitCollider in hitColliders)
         {
             var tg = hitCollider.gameObject.GetComponent<TreeGrowing>();
             if (tg)
             {
-                foundTreePosition = hitCollider.transform.position;
-                Debug.Log("Found tree. Position: " + foundTreePosition.ToString());
-                return true;
+                currentTreeDistance = Vector3.Distance(Workplace.transform.position, hitCollider.transform.position);
+                if (currentTreeDistance < closestTreeDistance && !tg.IsInUse)
+                {
+                    closestTreeDistance = currentTreeDistance;
+                    foundTreePosition = hitCollider.transform.position;
+                    treeGO = hitCollider.gameObject;
+                }
             }
         }
-        
+
+        if (closestTreeDistance < float.MaxValue)
+        { 
+            Debug.Log("Found tree. Position: " + foundTreePosition.ToString());
+            treeRef = treeGO;
+            treeRef.GetComponent<TreeGrowing>().IsInUse = true;
+            return true;
+        }
+
         return false;
     }
 
@@ -122,6 +182,8 @@ public class Woodcutter : UnitTemplate
         IsMoving = false;
         Type = UnitType.Woodcutter;
         MyNavMeshAgent = GetComponent<NavMeshAgent>();
+
+        isCuttingTree = false;
 
         IUnit.OnUnitSpawned(Type);
     }

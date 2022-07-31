@@ -7,7 +7,7 @@ public interface IUnit
     public static UnitSpawn OnUnitSpawned;
     public static UnitRemove OnUnitRemoved;
     string Name { get; set; }
-    float Health { get; set; }
+    int Health { get; set; }
     UnitState CurrentUnitState { get; set; }
     UnitType Type { get; set; }
     bool TakesAccomodation { get; }
