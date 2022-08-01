@@ -38,17 +38,21 @@ public class Woodcutter : UnitTemplate
                     }
                     else if (!CarriedResource && HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius,out Vector3 treePosition))
                     {
-                        SetTargetPosition(treePosition);
-                        ChangeUnitState(UnitState.Work);
-                        IsMoving = true;
-                        MyNavMeshAgent.isStopped = false;
+                        if (Workplace.GetComponent<IBuilding>().OwnStockpileOut.GetComponent<WoodStockpile>().CurrentStockpileItemCount < 8)
+                        {
+                            SetTargetPosition(treePosition);
+                            ChangeUnitState(UnitState.Work);
+                            IsMoving = true;
+                            MyNavMeshAgent.isStopped = false;
+                        }
                     }
                     else if (CarriedResource)
                     {
                         IResource resource = CarriedResource.GetComponent<IResource>();
                         if (resource != null)
                         {
-                            resource.UseResource();
+                            //resource.UseResource();
+                            WoodStockpile.OnResourcePlaced(CarriedResource);
                             CarriedResource.transform.parent = null;
                             CarriedResource = null;
                         }

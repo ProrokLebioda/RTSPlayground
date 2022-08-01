@@ -74,9 +74,7 @@ public class UnitTemplate : MonoBehaviour, IUnit
     {
         //pickup item, find closest 
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, 1f);
-        //foundTreePosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-        
-        GameObject treeGO = null;
+                
         foreach (var hitCollider in hitColliders)
         {
             IResource tg = hitCollider.gameObject.GetComponent<IResource>();
@@ -87,6 +85,7 @@ public class UnitTemplate : MonoBehaviour, IUnit
                 hitCollider.transform.localRotation = Quaternion.identity;
                 tg.IsInUse = true;
                 CarriedResource = hitCollider.gameObject;
+                return;
             }
         }
 

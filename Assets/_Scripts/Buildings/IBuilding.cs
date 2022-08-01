@@ -14,6 +14,8 @@ public interface IBuilding
     // Amount of Input Stockpiles
     int InStockpiles { get; set; }
 
+    GameObject OwnStockpileOut { get; set; }
+
     //Amount of Output Stockpiles
     int OutStockpiles { get; set; }
     ConstructionCosts ConstructionCost { get; set; }
