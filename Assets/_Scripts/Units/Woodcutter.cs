@@ -31,10 +31,7 @@ public class Woodcutter : UnitTemplate
                     // Go to workplace, this state is usually when first converted to unit type
                     if (!IsInBuilding)
                     {
-                        SetTargetPosition(Workplace.GetComponent<IBuilding>().Entrance.transform.position);
-                        ChangeUnitState(UnitState.Move);
-                        IsMoving = true;
-                        MyNavMeshAgent.isStopped = false;
+                        GoToWorkplace();
                     }
                     else if (!CarriedResource && HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius,out Vector3 treePosition))
                     {
@@ -52,7 +49,7 @@ public class Woodcutter : UnitTemplate
                         if (resource != null)
                         {
                             //resource.UseResource();
-                            WoodStockpile.OnResourcePlaced(CarriedResource);
+                            Workplace.GetComponent<IBuilding>().OwnStockpileOut.GetComponent<IStockpile>().ResourcePlaced(CarriedResource);
                             CarriedResource.transform.parent = null;
                             CarriedResource = null;
                         }
@@ -130,9 +127,7 @@ public class Woodcutter : UnitTemplate
     {
         yield return new WaitForSeconds(1f);        
         //Debug.Log("Tree cut");
-        
-        
-        
+               
         Collider[] hitColliders = Physics.OverlapSphere(transform.position+new Vector3(0,0,1), 2);
         foreach (var hitCollider in hitColliders)
         {            

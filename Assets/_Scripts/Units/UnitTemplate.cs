@@ -90,5 +90,13 @@ public class UnitTemplate : MonoBehaviour, IUnit
         }
 
     }
+
+    public virtual void GoToWorkplace()
+    {
+        SetTargetPosition(Workplace.GetComponent<IBuilding>().Entrance.transform.position);
+        ChangeUnitState(UnitState.Move);
+        IsMoving = true;
+        MyNavMeshAgent.isStopped = false;
+    }
 }
 

@@ -31,4 +31,6 @@ public interface IUnit
     public abstract void SetTargetPosition(Vector3 targetPosition);
 
     public abstract void MoveUnitToPosition(Vector3 position);
+
+    public abstract void GoToWorkplace();
 }
