@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 815eb616e1371d04cad218ee6a3a6614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  woodlogs:
+  visualStockpileItems:
   - {fileID: 3004996540955677551}
   - {fileID: 3004996540793640699}
   - {fileID: 3004996540897285814}
@@ -92,8 +92,7 @@ MonoBehaviour:
   - {fileID: 3004996539831836849}
   - {fileID: 3004996541136178329}
   - {fileID: 3004996540990145520}
-  currentStockpileItemsCount: 0
-  IsAttachedToBuilding: 1
+  currentStockpileItemCount: 2
 --- !u!1001 &2698374978273115311
 PrefabInstance:
   m_ObjectHideFlags: 0
