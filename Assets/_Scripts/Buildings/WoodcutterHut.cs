@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class WoodcutterHut : BuildingTemplate
 {
-    
 
+    
     private void OnEnable()
     {
         
@@ -18,6 +18,7 @@ public class WoodcutterHut : BuildingTemplate
 
         yield return new WaitForSeconds(0.1f);
         Build();
+        OwnStockpileOut = transform.Find("WoodStockpile").gameObject;
     }
 
     // Update is called once per frame

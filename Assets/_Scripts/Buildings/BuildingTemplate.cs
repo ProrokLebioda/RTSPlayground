@@ -14,6 +14,7 @@ public class BuildingTemplate : MonoBehaviour, IBuilding
     public UnitType WantedUnitType { get; set; }
     public GameObject Entrance { get; set; }
     public float BuildingRadius { get; set; }
+    public GameObject OwnStockpileOut { get; set; }
 
     private void OnEnable()
     {
