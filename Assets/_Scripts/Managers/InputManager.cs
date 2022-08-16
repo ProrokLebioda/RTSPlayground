@@ -77,8 +77,10 @@ public class InputManager : MonoBehaviour
     {
         // Place code responsible for building a Woodcutter's Hut
         CameraController.Instance.SetMouseMode(CameraController.MouseMode.BuildMode);
-        building = Resources.Load<GameObject>("_Prefabs/Buildings/Resources/WoodcutterHut");
-        CameraController.Instance.SetBuilding(building);
+        building = Resources.Load<GameObject>("_Prefabs/Buildings/Resources/WoodcutterHut_Blueprint");
+        Instantiate(building, transform.position, Quaternion.Euler(0f, -45f, 0f));
+
+        CameraController.Instance.SetBuilding(building.GetComponent<Blueprint>().prefab);
     }
     public void OnTreePlanterHouseButtonClick()
     {
