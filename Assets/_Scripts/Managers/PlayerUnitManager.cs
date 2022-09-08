@@ -84,4 +84,29 @@ public class PlayerUnitManager : MonoBehaviour
 
         return false;
     }
+
+    public GameObject FindFreeCarrier()
+    {
+        if (UnitsInfoDictionary.TryGetValue(UnitType.Carrier, out int value))
+        {
+            Debug.Log("Found " + UnitType.Carrier.ToString());
+            var gos = UnityEngine.GameObject.FindGameObjectsWithTag("Unit");
+            //UnityEngine.Object[] allObjects = UnityEngine.Object.FindObjectsOfType(typeof(IUnit));
+
+            foreach (GameObject go in gos)
+            {
+                if (go.GetComponent<UnitTemplate>().Type == UnitType.Carrier)
+                {
+                    // Find Carrier that doesn't carry anything
+                    if (!go.GetComponent<UnitTemplate>().CarriedResource)
+                    {
+                        //go.GetComponent<UnitTemplate>().Workplace = building;
+                        //building.GetComponent<BuildingTemplate>().IsOccupied = true;
+                        return go;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }

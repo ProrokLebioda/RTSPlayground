@@ -26,8 +26,10 @@ public class Carrier : UnitTemplate
         Workplace = null;
         CurrentUnitState = UnitState.Idle;
         Type = UnitType.Carrier;
-        MyNavMeshAgent = GetComponent<NavMeshAgent>();
+        MyNavMeshAgent = GetComponent<UnityEngine.AI.NavMeshAgent>();
 
         IUnit.OnUnitSpawned(Type);
     }
+
+
 }

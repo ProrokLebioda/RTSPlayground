@@ -26,11 +26,18 @@ public class WoodcutterHut : BuildingTemplate
     {
 
     }
+    //public override void Place()
+    //{
+    //    IsBuilt = false;
+    //    if (IsBuilt)
+    //        IBuilding.OnBuilt(gameObject);
+    //}
+
     public override void Build()
     {
 
         // Change when mechanics for building buildings from resources introduced
-        IsBuilt = true;
+        IsBuilt = false;
         Name = "Woodcutter's Hut";
         Health = 1;
         IsOccupied = false;
@@ -40,9 +47,11 @@ public class WoodcutterHut : BuildingTemplate
         BuildingRadius = 100.0f;
         WantedUnitType = UnitType.Woodcutter;
 
-
-        IBuilding.OnBuilt(gameObject);
+        if(IsBuilt)
+            IBuilding.OnBuilt(gameObject);
     }
+
+    
 
 
 }

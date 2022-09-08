@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
+        IBuilding.OnPlaced += BuildingPlaced;
         IBuilding.OnBuilt += BuildingCreated;
 
         IResource.OnCreated += IncreaseResource;
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable()
     {
+        IBuilding.OnPlaced -= BuildingPlaced;
         IBuilding.OnBuilt -= BuildingCreated;
 
         IResource.OnCreated -= IncreaseResource;
@@ -26,6 +28,14 @@ public class GameManager : MonoBehaviour
 
         IUnit.OnUnitSpawned -= AddedUnit;
         IUnit.OnUnitRemoved -= RemoveUnit;
+    }
+
+    private void BuildingPlaced(GameObject building)
+    {
+        Debug.Log("Go find me carrier for " + building.name);
+        GameObject carrier = FindFreeCarrier();
+
+        //FindFreeLaborerForBuilding(building);
     }
 
     private void BuildingCreated(GameObject building)
@@ -69,5 +79,10 @@ public class GameManager : MonoBehaviour
     bool FindFreeLaborerForBuilding(GameObject building)
     {
         return playerUnitsManager.GetComponent<PlayerUnitManager>().FindFreeLaborerForBuilding(building); ;
+    }
+
+    GameObject FindFreeCarrier()
+    {
+        return playerUnitsManager.GetComponent<PlayerUnitManager>().FindFreeCarrier();
     }
 }

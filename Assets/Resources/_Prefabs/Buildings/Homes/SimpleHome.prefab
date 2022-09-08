@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 6673913771755291576}
   - component: {fileID: 4994635508234941478}
   - component: {fileID: 3834757825366602580}
+  - component: {fileID: 6971111197245313267}
   m_Layer: 0
   m_Name: SimpleHome
   m_TagString: Untagged
@@ -230,6 +231,19 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: -0.21, y: 0.48, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &6971111197245313267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6329054580483004674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c885f3eafdd3c454e9d8486c2c526bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blueprintMaterial: {fileID: 2100000, guid: 5dd7fc04c4715894cb0a712fbc4b7ceb, type: 2}
 --- !u!1 &7614764342578883155
 GameObject:
   m_ObjectHideFlags: 0
