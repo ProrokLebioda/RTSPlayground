@@ -8,7 +8,7 @@ public interface IResource
     
     public bool IsInUse { get; set; }
 
-    ResourceType resourceType { get;}
+    ResourceType ResType { get; set; }
 
     public void CreateResource();
     public void UseResource();
