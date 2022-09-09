@@ -9,6 +9,12 @@ public class SimpleHome : BuildingTemplate
         Build();
     }
 
+    //public override void Place()
+    //{
+    //    IsBuilt = false;
+    //    if (IsBuilt)
+    //        IBuilding.OnBuilt(gameObject);
+    //}
 
     public override void Build()
     {
@@ -17,7 +23,7 @@ public class SimpleHome : BuildingTemplate
         { 
 
         }
-        IsBuilt = true;
+        IsBuilt = false;
         if (IsBuilt)
             IBuilding.OnBuilt(gameObject);
     }

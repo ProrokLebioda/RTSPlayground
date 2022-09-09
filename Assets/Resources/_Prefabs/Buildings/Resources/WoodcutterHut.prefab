@@ -320,6 +320,7 @@ GameObject:
   - component: {fileID: 1722764873635654912}
   - component: {fileID: 6641359070552304806}
   - component: {fileID: 1174695000319305444}
+  - component: {fileID: -7429840370079652881}
   m_Layer: 0
   m_Name: WoodcutterHut
   m_TagString: Building
@@ -335,9 +336,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7409264415003811207}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.72, y: 0, z: 8.96}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
-  m_ConstrainProportionsScale: 1
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7887455709341819603}
   - {fileID: 8653913085073884982}
@@ -388,6 +389,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ac1be8944d14b541ad512b829ace25e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7429840370079652881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7409264415003811207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c885f3eafdd3c454e9d8486c2c526bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blueprintMaterial: {fileID: 2100000, guid: 5dd7fc04c4715894cb0a712fbc4b7ceb, type: 2}
 --- !u!1001 &2395364785232784557
 PrefabInstance:
   m_ObjectHideFlags: 0

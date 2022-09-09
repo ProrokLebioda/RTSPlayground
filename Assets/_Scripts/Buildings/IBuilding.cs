@@ -1,11 +1,12 @@
 using UnityEngine;
 
 public delegate void Built(UnityEngine.GameObject building);
-
+public delegate void Placed(UnityEngine.GameObject building);
 public interface IBuilding
 {
 
     public static Built OnBuilt;
+    public static Placed OnPlaced;
     string Name { get; set; }
     float Health { get; set; }
     bool IsBuilt { get; set; }
@@ -26,7 +27,9 @@ public interface IBuilding
     UnitType WantedUnitType { get; set; }
 
 
+    public abstract void Place();
     public abstract void Build();
+    public abstract void FinishedBuilding();
 }
 
 

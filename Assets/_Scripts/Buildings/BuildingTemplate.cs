@@ -18,18 +18,23 @@ public class BuildingTemplate : MonoBehaviour, IBuilding
 
     private void OnEnable()
     {
-        Build();
+        
     }
 
+    public virtual void Place()
+    {
+        IBuilding.OnPlaced(gameObject);
+    }
 
     public virtual void Build()
     {
+        IsBuilt = false;
+        if (IsBuilt)
+            IBuilding.OnBuilt(gameObject);
+    }
 
-        for (int i = 0; i < 1000000; i++)
-        {
-
-        }
-        IsBuilt = true;
+    public virtual void FinishedBuilding()
+    {
         if (IsBuilt)
             IBuilding.OnBuilt(gameObject);
     }

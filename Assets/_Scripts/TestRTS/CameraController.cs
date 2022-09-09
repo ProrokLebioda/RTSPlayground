@@ -133,7 +133,7 @@ public class CameraController : MonoBehaviour
                     break;
 
                 case MouseMode.BuildMode:
-                    Build();
+                    //Build();
                     SetMouseMode(MouseMode.NormalMode);
                     break;
 
@@ -178,7 +178,9 @@ public class CameraController : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Instantiate(building, hit.point, Quaternion.Euler(0f, -45f,0f));
+            building.GetComponent<IBuilding>()?.Place();
             print(building.name + " is spawned");
+            building = null;
         }
     }
 
@@ -187,6 +189,7 @@ public class CameraController : MonoBehaviour
         if (_b != null)
         {
             building = _b;
+            _b = null;
         }
     }
 
