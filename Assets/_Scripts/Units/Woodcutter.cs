@@ -21,106 +21,7 @@ public class Woodcutter : UnitTemplate
         if (Health <= 0)
             RemoveUnit();
 
-        if (Workplace)
-        {
-            switch (CurrentUnitState)
-            {
-                case UnitState.Idle:
-                    IsMoving = false;
-                    
-                    // Go to workplace, this state is usually when first converted to unit type
-                    if (!IsInBuilding)
-                    {
-                        GoToWorkplace();
-                    }
-                    else if (!CarriedResource && HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius,out Vector3 treePosition))
-                    {
-                        if (Workplace.GetComponent<IBuilding>().OwnStockpileOut.GetComponent<WoodStockpile>().CurrentStockpileItemCount < 8)
-                        {
-                            SetTargetPosition(treePosition);
-                            ChangeUnitState(UnitState.Work);
-                            IsMoving = true;
-                            MyNavMeshAgent.isStopped = false;
-                        }
-                    }
-                    else if (CarriedResource)
-                    {
-                        IResource resource = CarriedResource.GetComponent<IResource>();
-                        if (resource != null)
-                        {
-                            //resource.UseResource();
-                            Workplace.GetComponent<IBuilding>().OwnStockpileOut.GetComponent<IStockpile>().ResourcePlaced(CarriedResource);
-                            CarriedResource.transform.parent = null;
-                            CarriedResource = null;
-                        }
-                    }
-                    break;
-
-                case UnitState.Move:
-                    if (IsInBuilding)
-                    {
-                        ChangeUnitState(UnitState.Idle);
-                        IsMoving = true;
-                        //GetComponent<CapsuleCollider>().enabled = true;
-                        //GetComponent<NavMeshAgent>().enabled = true;
-                        
-                        //MoveUnitToPosition(TargetPosition);
-                        
-                    }
-                    else
-                    {
-                        MoveUnitToPosition(TargetPosition);
-                        IsMoving = true;
-                    }
-
-                    break;
-                case UnitState.Work:
-                    MoveUnitToPosition(TargetPosition);
-
-                    if (!IsMoving && !isCuttingTree)
-                    {
-                        isCuttingTree = true;
-
-                        StartCoroutine(CutDownTree());
-
-
-                    }
-                    else if (!IsMoving && isCuttingTree)
-                    {
-                        if (!treeRef)
-                        {
-                            // Tree was cut
-                            //ChangeUnitState(UnitState.Idle);
-
-                            //pickup tree
-                            PickupItem(ResourceType.Wood);
-                            ChangeUnitState(UnitState.Idle);
-                            isCuttingTree = false;
-                        }
-                        else
-                        {
-                            StartCoroutine(CutDownTree());
-                        }
-                        //when tree cut
-                        //
-
-                    }
-                    else if (!IsInBuilding)
-                    { 
-                        float distanceToTargetTree = MyNavMeshAgent.remainingDistance;
-                        if (distanceToTargetTree <= 0.3f)
-                        {
-                            //Debug.Log(gameObject.name + " reached tree");
-                            IsMoving = false;
-                            MyNavMeshAgent.isStopped = true;
-                        }
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-        }
+        Work();
     }
 
     private IEnumerator CutDownTree()
@@ -189,6 +90,105 @@ public class Woodcutter : UnitTemplate
 
     public override void Work()
     {
+        if (Workplace)
+        {
+            switch (CurrentUnitState)
+            {
+                case UnitState.Idle:
+                    IsMoving = false;
 
+                    // Go to workplace, this state is usually when first converted to unit type
+                    if (!IsInBuilding)
+                    {
+                        GoToWorkplace();
+                    }
+                    else if (!CarriedResource && HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius, out Vector3 treePosition))
+                    {
+                        if (Workplace.GetComponent<IBuilding>().OwnStockpileOut.GetComponent<WoodStockpile>().CurrentStockpileItemCount < 8)
+                        {
+                            SetTargetPosition(treePosition);
+                            ChangeUnitState(UnitState.Work);
+                            IsMoving = true;
+                            MyNavMeshAgent.isStopped = false;
+                        }
+                    }
+                    else if (CarriedResource)
+                    {
+                        IResource resource = CarriedResource.GetComponent<IResource>();
+                        if (resource != null)
+                        {
+                            //resource.UseResource();
+                            Workplace.GetComponent<IBuilding>().OwnStockpileOut.GetComponent<IStockpile>().ResourcePlaced(CarriedResource);
+                            CarriedResource.transform.parent = null;
+                            CarriedResource = null;
+                        }
+                    }
+                    break;
+
+                case UnitState.Move:
+                    if (IsInBuilding)
+                    {
+                        ChangeUnitState(UnitState.Idle);
+                        IsMoving = true;
+                        //GetComponent<CapsuleCollider>().enabled = true;
+                        //GetComponent<NavMeshAgent>().enabled = true;
+
+                        //MoveUnitToPosition(TargetPosition);
+
+                    }
+                    else
+                    {
+                        MoveUnitToPosition(TargetPosition);
+                        IsMoving = true;
+                    }
+
+                    break;
+                case UnitState.Work:
+                    MoveUnitToPosition(TargetPosition);
+
+                    if (!IsMoving && !isCuttingTree)
+                    {
+                        isCuttingTree = true;
+
+                        StartCoroutine(CutDownTree());
+
+
+                    }
+                    else if (!IsMoving && isCuttingTree)
+                    {
+                        if (!treeRef)
+                        {
+                            // Tree was cut
+                            //ChangeUnitState(UnitState.Idle);
+
+                            //pickup tree
+                            PickupItem(ResourceType.Wood);
+                            ChangeUnitState(UnitState.Idle);
+                            isCuttingTree = false;
+                        }
+                        else
+                        {
+                            StartCoroutine(CutDownTree());
+                        }
+                        //when tree cut
+                        //
+
+                    }
+                    else if (!IsInBuilding)
+                    {
+                        float distanceToTargetTree = MyNavMeshAgent.remainingDistance;
+                        if (distanceToTargetTree <= 0.3f)
+                        {
+                            //Debug.Log(gameObject.name + " reached tree");
+                            IsMoving = false;
+                            MyNavMeshAgent.isStopped = true;
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }    
 }

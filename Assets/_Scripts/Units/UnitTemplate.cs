@@ -75,9 +75,9 @@ public class UnitTemplate : MonoBehaviour, IUnit
         IStockpile stockpile = stockpileSource.GetComponent<IStockpile>();
         if (stockpile != null)
         {
-            GameObject go = new();
+            
             Debug.Log("Attempt to pickup item from " + stockpileSource.name);
-            if (stockpile.ResourcePickedUp(out go))
+            if (stockpile.ResourcePickedUp(out GameObject go))
             {
                 Debug.Log("Item picked up");
                 CarriedResource = go;
@@ -119,7 +119,7 @@ public class UnitTemplate : MonoBehaviour, IUnit
     /// Place object on Stockpile
     /// </summary>
     /// <param name="destinationObject"></param>
-    public virtual void PlaceItem(GameObject destinationObject)
+    public virtual void PlaceItemOnStack(GameObject destinationObject)
     {
         if (CarriedResource)
         {

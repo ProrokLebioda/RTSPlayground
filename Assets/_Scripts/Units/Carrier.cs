@@ -56,10 +56,17 @@ public class Carrier : UnitTemplate
         {
             // go to start object
             MoveUnitToPosition(StartObject.transform.position);
-            if (Vector3.Distance(this.gameObject.transform.position, StartObject.transform.position) < 3.1f)
+            if (Vector3.Distance(this.gameObject.transform.position, StartObject.transform.position) < 3.2f)
             {
-                //PickupItem(ResourceType.Any);
-                PickupItemFromStockpile(StartObject);
+                if (StartObject.TryGetComponent(out IResource resource))
+                {
+                    PickupItem(ResourceType.Any);
+                    
+                }
+                else if (StartObject.TryGetComponent(out IStockpile stockpile))
+                {
+                    PickupItemFromStockpile(StartObject);
+                }
             }
         }
         else if (CarriedResource && EndObject)
@@ -68,8 +75,17 @@ public class Carrier : UnitTemplate
             MoveUnitToPosition(EndObject.transform.position);
             if (Vector3.Distance(this.gameObject.transform.position, EndObject.transform.position) < 3.1f)
             {
-                PlaceItem(EndObject);
+                PlaceItemOnStack(EndObject);
+                StartObject = null;
+                EndObject = null;
             }
+        }
+        else if (CarriedResource && !EndObject)
+        {
+            //Drop item
+            CarriedResource.transform.parent = null;
+            CarriedResource = null;
+            StartObject = null;
         }
     }
 }
