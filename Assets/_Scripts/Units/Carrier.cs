@@ -5,17 +5,26 @@ using UnityEngine.AI;
 
 public class Carrier : UnitTemplate
 {
+
+    public GameObject StartObject;
+    public GameObject EndObject;
+
+
     // Start is called before the first frame update
     void Start()
     {
         SpawnUnit();
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
         if (Health <= 0)
             RemoveUnit();
+
+        Work();
     }
 
     public override void SpawnUnit()
@@ -31,5 +40,35 @@ public class Carrier : UnitTemplate
         IUnit.OnUnitSpawned(Type);
     }
 
+    public void SetStartDestination(GameObject startObject)
+    {
+        StartObject = startObject;
+    }
 
+    public void SetEndDestination(GameObject endObject)
+    {
+        EndObject = endObject;
+    }
+
+    public override void Work()
+    {
+        if (!CarriedResource && StartObject)
+        {
+            // go to start object
+            MoveUnitToPosition(StartObject.transform.position);
+            if (Vector3.Distance(this.gameObject.transform.position, StartObject.transform.position) < 1.1f)
+            {
+                PickupItem(ResourceType.Any);
+            }
+        }
+        else if (CarriedResource && EndObject)
+        {
+            // carry to destination
+            MoveUnitToPosition(EndObject.transform.position);
+            if (Vector3.Distance(this.gameObject.transform.position, EndObject.transform.position) < 1.1f)
+            {
+                PlaceItem();
+            }
+        }
+    }
 }

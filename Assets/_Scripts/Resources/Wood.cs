@@ -15,6 +15,7 @@ public class Wood : MonoBehaviour, IResource
         CreateResource();
     }
 
+
     //private void OnEnable()
     //{
     //    CreateResource();
