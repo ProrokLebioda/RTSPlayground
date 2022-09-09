@@ -19,7 +19,12 @@ public interface IStockpile
     public ResourceType resourceType { get; set; }
     public bool IsAttachedToBuilding { get; set; }
 
-    public abstract void ResourcePickedUp(GameObject go);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="go"></param>
+    /// <returns>Whether or not we managed to pickup item</returns>
+    public abstract bool ResourcePickedUp(out GameObject go);
     public abstract void ResourcePlaced(GameObject go);
     public abstract void SetCorrectObjectVisible();
 

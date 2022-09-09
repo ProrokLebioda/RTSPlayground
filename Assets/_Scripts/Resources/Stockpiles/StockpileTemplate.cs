@@ -79,17 +79,29 @@ public class StockpileTemplate : MonoBehaviour, IStockpile
         if (resourceInstancesList.Count < maxStockpileItems)
         {
             resourceInstancesList.Add(go);
+            IResource tg = go.GetComponent<IResource>();
+            tg.IsInUse = false;
             CurrentStockpileItemCount++;
         }
     }
 
-    public virtual void ResourcePickedUp(GameObject go)
+    public virtual bool ResourcePickedUp(out GameObject go)
     {
         if (resourceInstancesList.Count > 0)
         {
+            go = resourceInstancesList[CurrentStockpileItemCount-1];
             resourceInstancesList.RemoveAt(CurrentStockpileItemCount - 1);
-            CurrentStockpileItemCount++;
+            IResource tg = go.GetComponent<IResource>();
+            tg.IsInUse = true;
+            CurrentStockpileItemCount--;
+            return true;
 
+        }
+        else 
+        {
+            //we don't want that...
+            go = null;
+            return false;
         }
     }
 

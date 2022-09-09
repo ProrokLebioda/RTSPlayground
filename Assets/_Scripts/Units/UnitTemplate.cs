@@ -70,6 +70,31 @@ public class UnitTemplate : MonoBehaviour, IUnit
         MyNavMeshAgent.SetDestination(position);
     }
 
+    public virtual void PickupItemFromStockpile(GameObject stockpileSource)
+    {
+        IStockpile stockpile = stockpileSource.GetComponent<IStockpile>();
+        if (stockpile != null)
+        {
+            GameObject go = new();
+            Debug.Log("Attempt to pickup item from " + stockpileSource.name);
+            if (stockpile.ResourcePickedUp(out go))
+            {
+                Debug.Log("Item picked up");
+                CarriedResource = go;
+                CarriedResource.transform.position = this.gameObject.transform.position;
+                CarriedResource.transform.position += new Vector3(0, 1f, 0); 
+
+                if (!CarriedResource.GetComponent<MeshRenderer>().enabled)
+                    CarriedResource.GetComponent<MeshRenderer>().enabled = true;
+                CarriedResource.transform.parent = this.gameObject.transform;
+            }
+            else
+            {
+                Debug.Log("Item pickup failed");
+            }
+        }
+    }
+
     public virtual void PickupItem(ResourceType resourceType)
     {
         //pickup item, find closest 
@@ -88,12 +113,33 @@ public class UnitTemplate : MonoBehaviour, IUnit
                 return;
             }
         }
-
     }
 
-    public virtual void PlaceItem()
+    /// <summary>
+    /// Place object on Stockpile
+    /// </summary>
+    /// <param name="destinationObject"></param>
+    public virtual void PlaceItem(GameObject destinationObject)
     {
+        if (CarriedResource)
+        {
+            IStockpile stockpile = destinationObject.GetComponent<IStockpile>();
+            
+            stockpile?.ResourcePlaced(CarriedResource);
+            CarriedResource.GetComponent<MeshRenderer>().enabled = false;
+            CarriedResource.transform.parent = null;
+            CarriedResource = null;
+        }
+    }
 
+    /// <summary>
+    /// Place on position, in case there is no valid object to place
+    /// </summary>
+    /// <param name="destinationPosition"></param>
+    public virtual void PlaceItem(Vector3 destinationPosition)
+    {
+        CarriedResource.transform.parent = null;
+        CarriedResource = null;
     }
 
     public virtual void GoToWorkplace()

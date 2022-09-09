@@ -56,18 +56,19 @@ public class Carrier : UnitTemplate
         {
             // go to start object
             MoveUnitToPosition(StartObject.transform.position);
-            if (Vector3.Distance(this.gameObject.transform.position, StartObject.transform.position) < 1.1f)
+            if (Vector3.Distance(this.gameObject.transform.position, StartObject.transform.position) < 3.1f)
             {
-                PickupItem(ResourceType.Any);
+                //PickupItem(ResourceType.Any);
+                PickupItemFromStockpile(StartObject);
             }
         }
         else if (CarriedResource && EndObject)
         {
             // carry to destination
             MoveUnitToPosition(EndObject.transform.position);
-            if (Vector3.Distance(this.gameObject.transform.position, EndObject.transform.position) < 1.1f)
+            if (Vector3.Distance(this.gameObject.transform.position, EndObject.transform.position) < 3.1f)
             {
-                PlaceItem();
+                PlaceItem(EndObject);
             }
         }
     }
