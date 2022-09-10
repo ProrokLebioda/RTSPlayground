@@ -120,6 +120,11 @@ public class CameraController : MonoBehaviour
                                 res.UseResource();
                                 
                             }
+                            else if (hit.collider.name.Contains("RockFormation"))
+                            {
+                                GameObject go = hit.collider.gameObject;
+                                go.GetComponent<IDamageable>().Damage(1);
+                            }
                         }
                         else if (hit.collider.tag == "Unit")
                         {
