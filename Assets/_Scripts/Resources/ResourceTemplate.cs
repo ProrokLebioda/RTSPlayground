@@ -6,7 +6,7 @@ public class ResourceTemplate : MonoBehaviour, IResource
 {
     public ResourceType ResType { get; set; }
     public bool IsInUse { get; set; }
-
+    
     // done as an courutine to help fix issue of not registered spawn, perhaps all resources should have it
     // or maybe should be fixed in other way. Problems might occur when added Save option
     public virtual IEnumerator Start()

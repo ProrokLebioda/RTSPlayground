@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2698374979553952428}
   - component: {fileID: 2698374979553952429}
-  - component: {fileID: 2698374979553952431}
-  - component: {fileID: 2698374979553952430}
+  - component: {fileID: 7874668949491863113}
   m_Layer: 0
   m_Name: WoodStockpile
   m_TagString: Untagged
@@ -50,28 +49,12 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2698374979553952434}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4, y: 2, z: 3.78}
   m_Center: {x: 0, y: 1, z: 0}
---- !u!208 &2698374979553952431
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2698374979553952434}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 1.75, y: 0.5, z: 1.75}
-  m_MoveThreshold: 0.1
-  m_Carve: 1
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
---- !u!114 &2698374979553952430
+--- !u!114 &7874668949491863113
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -80,7 +63,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2698374979553952434}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 815eb616e1371d04cad218ee6a3a6614, type: 3}
+  m_Script: {fileID: 11500000, guid: 893ec2f8e4beae64f80c143669e8d481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   visualStockpileItems:
@@ -92,7 +75,10 @@ MonoBehaviour:
   - {fileID: 3004996539831836849}
   - {fileID: 3004996541136178329}
   - {fileID: 3004996540990145520}
-  currentStockpileItemCount: 2
+  currentStockpileItemCount: 0
+  prefabOnStockpile: {fileID: 7598547927330682409, guid: c71ac7946377a2340b87e9a4080a0958,
+    type: 3}
+  resourceType: 1
 --- !u!1001 &2698374978273115311
 PrefabInstance:
   m_ObjectHideFlags: 0

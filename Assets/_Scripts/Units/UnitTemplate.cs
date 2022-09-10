@@ -127,7 +127,7 @@ public class UnitTemplate : MonoBehaviour, IUnit
             
             stockpile?.ResourcePlaced(CarriedResource);
             CarriedResource.GetComponent<MeshRenderer>().enabled = false;
-            CarriedResource.transform.parent = null;
+            CarriedResource.transform.parent = destinationObject.transform;
             CarriedResource = null;
         }
     }

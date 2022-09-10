@@ -10,6 +10,8 @@ public class WoodStockpile : StockpileTemplate
         maxStockpileItems = 8;
         resourceType = ResourceType.Wood;
         IsAttachedToBuilding = true;
-        CurrentStockpileItemCount = 0;
+        CurrentStockpileItemCount = 2;
+        if (CurrentStockpileItemCount > 0)
+            InstantiateResourcesOnStockpile();
     }
 }

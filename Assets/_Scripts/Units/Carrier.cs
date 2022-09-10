@@ -56,7 +56,7 @@ public class Carrier : UnitTemplate
         {
             // go to start object
             MoveUnitToPosition(StartObject.transform.position);
-            if (Vector3.Distance(this.gameObject.transform.position, StartObject.transform.position) < 3.2f)
+            if (Vector3.Distance(this.gameObject.transform.position, StartObject.transform.position) < 1.1f)
             {
                 if (StartObject.TryGetComponent(out IResource resource))
                 {
@@ -73,7 +73,7 @@ public class Carrier : UnitTemplate
         {
             // carry to destination
             MoveUnitToPosition(EndObject.transform.position);
-            if (Vector3.Distance(this.gameObject.transform.position, EndObject.transform.position) < 3.1f)
+            if (Vector3.Distance(this.gameObject.transform.position, EndObject.transform.position) < 1.1f)
             {
                 PlaceItemOnStack(EndObject);
                 StartObject = null;

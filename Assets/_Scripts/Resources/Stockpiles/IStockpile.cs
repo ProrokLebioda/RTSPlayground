@@ -16,7 +16,7 @@ public interface IStockpile
 
     public int CurrentStockpileItemCount { get; set; }
 
-    public ResourceType resourceType { get; set; }
+    //public ResourceType resourceType { get; set; }
     public bool IsAttachedToBuilding { get; set; }
 
     /// <summary>
