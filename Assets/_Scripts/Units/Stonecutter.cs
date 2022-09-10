@@ -1,14 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Woodcutter : UnitTemplate
+public class Stonecutter : UnitTemplate
 {
-    bool isCuttingTree;
+    bool isCuttingRockFormation;
 
-    private GameObject treeRef;
+    private GameObject rockFormationRef;
     // Start is called before the first frame update
     void Start()
     {
@@ -24,48 +23,49 @@ public class Woodcutter : UnitTemplate
         Work();
     }
 
-    private IEnumerator CutDownTree()
+    // Change to cut rockFormation
+    private IEnumerator CutRockFormation()
     {
-        yield return new WaitForSeconds(1f);        
-        //Debug.Log("Tree cut");
-               
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position+new Vector3(0,0,1), 2);
-        foreach (var hitCollider in hitColliders)
-        {            
-            if (hitCollider.TryGetComponent<TreeGrowing>(out TreeGrowing tree))
-            {
-                tree.Damage(1);
-            }
-        }            
-    }
+        yield return new WaitForSeconds(1f);
+        //Debug.Log("Rock formation cut");
 
-    private bool HasTreesInRange(Vector3 center, float radius, out Vector3 foundTreePosition)
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
-        foundTreePosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-        float closestTreeDistance = float.MaxValue;
-        float currentTreeDistance = float.MaxValue;
-        GameObject treeGO = null;
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + new Vector3(0, 0, 1), 2);
         foreach (var hitCollider in hitColliders)
         {
-            var tg = hitCollider.gameObject.GetComponent<TreeGrowing>();
+            if (hitCollider.TryGetComponent<RockFormation>(out RockFormation rockFormation))
+            {
+                rockFormation.Damage(1);
+            }
+        }
+    }
+
+    //Change to HasRockFormationInRange
+    private bool HasRockFormationInRange(Vector3 center, float radius, out Vector3 foundRockFormationPosition)
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+        foundRockFormationPosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+        float closestRockFormationDistance = float.MaxValue;
+        GameObject rockFormationGO = null;
+        foreach (var hitCollider in hitColliders)
+        {
+            var tg = hitCollider.gameObject.GetComponent<RockFormation>();
             if (tg)
             {
-                currentTreeDistance = Vector3.Distance(Workplace.transform.position, hitCollider.transform.position);
-                if (currentTreeDistance < closestTreeDistance && !tg.IsInUse)
+                float currentRockFormationDistance = Vector3.Distance(Workplace.transform.position, hitCollider.transform.position);
+                if (currentRockFormationDistance < closestRockFormationDistance && !tg.IsInUse)
                 {
-                    closestTreeDistance = currentTreeDistance;
-                    foundTreePosition = hitCollider.transform.position;
-                    treeGO = hitCollider.gameObject;
+                    closestRockFormationDistance = currentRockFormationDistance;
+                    foundRockFormationPosition = hitCollider.transform.position;
+                    rockFormationGO = hitCollider.gameObject;
                 }
             }
         }
 
-        if (closestTreeDistance < float.MaxValue)
-        { 
-            Debug.Log("Found tree. Position: " + foundTreePosition.ToString());
-            treeRef = treeGO;
-            treeRef.GetComponent<TreeGrowing>().IsInUse = true;
+        if (closestRockFormationDistance < float.MaxValue)
+        {
+            Debug.Log("Found rock formation. Position: " + foundRockFormationPosition.ToString());
+            rockFormationRef = rockFormationGO;
+            rockFormationRef.GetComponent<RockFormation>().IsInUse = true;
             return true;
         }
 
@@ -75,15 +75,15 @@ public class Woodcutter : UnitTemplate
     public override void SpawnUnit()
     {
         Health = 1;
-        Name = UnitType.Woodcutter.ToString();
+        Name = UnitType.Stonecutter.ToString();
         Workplace = null;
         CurrentUnitState = UnitState.Idle;
         IsInBuilding = false;
         IsMoving = false;
-        Type = UnitType.Woodcutter;
+        Type = UnitType.Stonecutter;
         MyNavMeshAgent = GetComponent<NavMeshAgent>();
 
-        isCuttingTree = false;
+        isCuttingRockFormation = false;
 
         IUnit.OnUnitSpawned(Type);
     }
@@ -102,11 +102,11 @@ public class Woodcutter : UnitTemplate
                     {
                         GoToWorkplace();
                     }
-                    else if (!CarriedResource && HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius, out Vector3 treePosition))
+                    else if (!CarriedResource && HasRockFormationInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius, out Vector3 rockFormationPosition))
                     {
                         if (Workplace.GetComponent<IBuilding>().OwnStockpileOut.GetComponent<StockpileTemplate>().CurrentStockpileItemCount < 8)
                         {
-                            SetTargetPosition(treePosition);
+                            SetTargetPosition(rockFormationPosition);
                             ChangeUnitState(UnitState.Work);
                             IsMoving = true;
                             MyNavMeshAgent.isStopped = false;
@@ -146,29 +146,32 @@ public class Woodcutter : UnitTemplate
                 case UnitState.Work:
                     MoveUnitToPosition(TargetPosition);
 
-                    if (!IsMoving && !isCuttingTree)
+                    if (!IsMoving && !isCuttingRockFormation)
                     {
-                        isCuttingTree = true;
+                        isCuttingRockFormation = true;
 
-                        StartCoroutine(CutDownTree());
+                        StartCoroutine(CutRockFormation());
 
 
                     }
-                    else if (!IsMoving && isCuttingTree)
+                    else if (!IsMoving && isCuttingRockFormation)
                     {
-                        if (!treeRef)
+                        ///
+                        // This part needs work. Logic behind RockFormation is different.
+                        ///
+                        if (!rockFormationRef)
                         {
                             // Tree was cut
                             //ChangeUnitState(UnitState.Idle);
 
-                            //pickup tree
-                            PickupItem(ResourceType.Wood);
+                            //pickup stone
+                            PickupItem(ResourceType.Stone);
                             ChangeUnitState(UnitState.Idle);
-                            isCuttingTree = false;
+                            isCuttingRockFormation = false;
                         }
                         else
                         {
-                            StartCoroutine(CutDownTree());
+                            StartCoroutine(CutRockFormation());
                         }
                         //when tree cut
                         //
@@ -179,7 +182,7 @@ public class Woodcutter : UnitTemplate
                         float distanceToTargetTree = MyNavMeshAgent.remainingDistance;
                         if (distanceToTargetTree <= 0.3f)
                         {
-                            //Debug.Log(gameObject.name + " reached tree");
+                            //Debug.Log(gameObject.name + " reached rock formation");
                             IsMoving = false;
                             MyNavMeshAgent.isStopped = true;
                         }
@@ -190,5 +193,5 @@ public class Woodcutter : UnitTemplate
                     break;
             }
         }
-    }    
+    }
 }
