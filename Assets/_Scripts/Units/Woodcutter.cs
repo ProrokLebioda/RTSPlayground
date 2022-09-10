@@ -104,7 +104,7 @@ public class Woodcutter : UnitTemplate
                     }
                     else if (!CarriedResource && HasTreesInRange(Workplace.transform.position, Workplace.GetComponent<IBuilding>().BuildingRadius, out Vector3 treePosition))
                     {
-                        if (Workplace.GetComponent<IBuilding>().OwnStockpileOut.GetComponent<WoodStockpile>().CurrentStockpileItemCount < 8)
+                        if (Workplace.GetComponent<IBuilding>().OwnStockpileOut.GetComponent<StockpileTemplate>().CurrentStockpileItemCount < 8)
                         {
                             SetTargetPosition(treePosition);
                             ChangeUnitState(UnitState.Work);

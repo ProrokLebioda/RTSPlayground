@@ -5,22 +5,32 @@ using TMPro;
 public class ResourceManager : MonoBehaviour
 {
     public TMP_Text woodCount;
+    public TMP_Text stoneCount;
     private int wood;
     private int planks;
     private int stones;
 
     public static ResourceManager instance;
 
-    public int Wood { get => wood;
-        set 
+    public int Wood
+    {
+        get => wood;
+        set
         {
             wood = value;
             woodCount.text = wood.ToString();
         }
     }
     public int Planks { get => planks; set => planks = value; }
-    public int Stones { get => stones; set => stones = value; }
-
+    public int Stones
+    {
+        get => stones;
+        set
+        {
+            stones = value;
+            stoneCount.text = stones.ToString();
+        }
+    }
     public static ResourceManager Instance() => instance ? instance : (instance = (new GameObject("ResourceManager")).AddComponent<ResourceManager>());
 
     private void Awake()
@@ -41,5 +51,23 @@ public class ResourceManager : MonoBehaviour
     {
         
     }
+
+    public void IncreaseResource(ResourceType resType)
+    {
+        switch(resType)
+        {
+            case ResourceType.Wood: Wood++; break;
+            case ResourceType.Stone: Stones++; break;
+        }
+    }
+
+    public void DecreaseResource(ResourceType resType)
+    {
+        switch (resType)
+        {
+            case ResourceType.Wood: Wood--; break;
+            case ResourceType.Stone: Stones--; break;
+        }
+    }    
          
 }

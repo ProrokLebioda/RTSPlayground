@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,7 +26,10 @@ public class StockpileTemplate : MonoBehaviour, IStockpile
             SetCorrectObjectVisible();
         }
     }
-    public ResourceType resourceType { get; set; }
+    public GameObject prefabOnStockpile;
+
+    [SerializeField]
+    public ResourceType resourceType;
     public bool IsAttachedToBuilding { get; set; }    
 
     event IStockpile.ResourcePlace IStockpile.OnResourcePlaced
@@ -69,11 +73,23 @@ public class StockpileTemplate : MonoBehaviour, IStockpile
     {
         resourceInstancesList = new List<GameObject>();
         maxStockpileItems = 8;
-        resourceType = ResourceType.None;
+        //resourceType = ResourceType.None;
         IsAttachedToBuilding = false;
         CurrentStockpileItemCount = 0;
+        if (CurrentStockpileItemCount > 0)
+            InstantiateResourcesOnStockpile();
     }
-    
+
+    public virtual void InstantiateResourcesOnStockpile()
+    {
+        for(int i = 0; i < CurrentStockpileItemCount; i++)
+        {
+            GameObject go = Instantiate(prefabOnStockpile, this.gameObject.transform.position, Quaternion.Euler(0f, -45f, 0f));
+            go.GetComponent<MeshRenderer>().enabled = false;
+            resourceInstancesList.Add(go);
+        }
+    }
+
     public void ResourcePlaced(GameObject go)
     {
         if (resourceInstancesList.Count < maxStockpileItems)

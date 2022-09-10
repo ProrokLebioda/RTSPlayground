@@ -103,7 +103,7 @@ public class UnitTemplate : MonoBehaviour, IUnit
         foreach (var hitCollider in hitColliders)
         {
             IResource tg = hitCollider.gameObject.GetComponent<IResource>();
-            if ((tg != null && !tg.IsInUse) && (resourceType == tg.resourceType || resourceType == ResourceType.Any))
+            if ((tg != null && !tg.IsInUse) && (resourceType == tg.ResType || resourceType == ResourceType.Any))
             {
                 hitCollider.transform.position += new Vector3(0, 1f, 0); 
                 hitCollider.transform.parent = this.transform;
@@ -127,7 +127,7 @@ public class UnitTemplate : MonoBehaviour, IUnit
             
             stockpile?.ResourcePlaced(CarriedResource);
             CarriedResource.GetComponent<MeshRenderer>().enabled = false;
-            CarriedResource.transform.parent = null;
+            CarriedResource.transform.parent = destinationObject.transform;
             CarriedResource = null;
         }
     }

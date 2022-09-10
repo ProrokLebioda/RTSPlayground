@@ -47,12 +47,12 @@ public class GameManager : MonoBehaviour
     private void IncreaseResource(ResourceType resType)
     {
         Debug.Log("Created " + resType.ToString() + " resource");
-        ResourceManager.Instance().Wood++;
+        ResourceManager.Instance().IncreaseResource(resType);
     }
     private void DecreaseResource(ResourceType resType)
     {
         Debug.Log("Used resource" + resType.ToString());
-        ResourceManager.Instance().Wood--;
+        ResourceManager.Instance().DecreaseResource(resType);
     }
 
     private void AddedUnit(UnitType type)
