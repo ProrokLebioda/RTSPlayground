@@ -5,5 +5,6 @@
     Carrier,
     Builder,
     Treeplanter,
-    Woodcutter
+    Woodcutter,
+    Stonecutter
 }
