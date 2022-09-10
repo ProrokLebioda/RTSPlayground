@@ -82,6 +82,17 @@ public class InputManager : MonoBehaviour
 
         //CameraController.Instance.SetBuilding(building/*.GetComponent<Blueprint>().gameObject*/);
     }
+
+    public void OnStonecutterHutButtonClick()
+    {
+        // Place code responsible for building a Woodcutter's Hut
+        CameraController.Instance.SetMouseMode(CameraController.MouseMode.BuildMode);
+        building = Resources.Load<GameObject>("_Prefabs/Buildings/Resources/StonecutterHut");
+        Instantiate(building, transform.position, Quaternion.Euler(0f, -45f, 0f));
+
+        //CameraController.Instance.SetBuilding(building/*.GetComponent<Blueprint>().gameObject*/);
+    }
+
     public void OnTreePlanterHouseButtonClick()
     {
         // Place code responsible for building a Simple House
