@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 538112497050204703}
   - component: {fileID: 538112497050204696}
   - component: {fileID: 538112497050204697}
+  - component: {fileID: 7105600178853056497}
   - component: {fileID: 538112497050204701}
   - component: {fileID: 538112497050204700}
-  - component: {fileID: 7517441070473124476}
   - component: {fileID: 7390896529978498162}
   - component: {fileID: -175048690246373287}
   m_Layer: 0
-  m_Name: Woodcutter
+  m_Name: Stonecutter
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538112497050204698}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 31.5, y: 1, z: 12.92}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69,7 +69,7 @@ MeshRenderer:
   m_RenderingLayerMask: 257
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9bf2cc3264e6c1d47b1d387548a5f6f8, type: 2}
+  - {fileID: 2100000, guid: 2dbcf11283fccf64fb6e930135c30011, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,6 +105,19 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7105600178853056497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538112497050204698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3066759178b279b4c96e01f84acff96a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MyNavMeshAgent: {fileID: 0}
 --- !u!195 &538112497050204701
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -139,19 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c0383e261918c54ab2de91844d05790, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7517441070473124476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 538112497050204698}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb123a50bf5754348be955fd62fd2b23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MyNavMeshAgent: {fileID: 0}
 --- !u!114 &7390896529978498162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,14 +239,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3793602400156849284}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0.6269296, y: -0, z: -0, w: 0.7790759}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.15, y: 0.6818182, z: 0.17727272}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 764746676907064468}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -77.648, y: 0, z: 0}
 --- !u!33 &6704479372285634662
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -337,14 +337,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5520451290629082461}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.536, z: 0.107}
-  m_LocalScale: {x: 0.04, y: 0.24, z: 0.32954544}
+  m_LocalRotation: {x: -0.6269296, y: -0, z: -0, w: 0.7790759}
+  m_LocalPosition: {x: 0, y: 0.119, z: -0.594}
+  m_LocalScale: {x: 0.161416, y: 0.049557116, z: 0.93442607}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 764746676907064468}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -77.648, y: 0, z: 0}
 --- !u!33 &3463129964377264355
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -12,6 +12,8 @@ public class RockFormation : MonoBehaviour, IDamageable
     private int _currentHP;
 
     public GameObject stone;
+    public bool IsInUse { get; set; }
+
     public void Damage(int amount)
     {
         _currentHP -= amount;
