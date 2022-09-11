@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class Stonecutter : UnitTemplate
 {
     bool isCuttingRockFormation;
+    bool isWaitForStone;
 
     private GameObject rockFormationRef;
     // Start is called before the first frame update
@@ -36,40 +37,50 @@ public class Stonecutter : UnitTemplate
             {
                 rockFormation.Damage(1);
             }
-        }
+        }        
+        PickupItem(ResourceType.Stone);
+        isWaitForStone = false;
     }
 
     //Change to HasRockFormationInRange
     private bool HasRockFormationInRange(Vector3 center, float radius, out Vector3 foundRockFormationPosition)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(center, radius);
-        foundRockFormationPosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
-        float closestRockFormationDistance = float.MaxValue;
-        GameObject rockFormationGO = null;
-        foreach (var hitCollider in hitColliders)
+        if (rockFormationRef)
         {
-            var tg = hitCollider.gameObject.GetComponent<RockFormation>();
-            if (tg)
-            {
-                float currentRockFormationDistance = Vector3.Distance(Workplace.transform.position, hitCollider.transform.position);
-                if (currentRockFormationDistance < closestRockFormationDistance && !tg.IsInUse)
-                {
-                    closestRockFormationDistance = currentRockFormationDistance;
-                    foundRockFormationPosition = hitCollider.transform.position;
-                    rockFormationGO = hitCollider.gameObject;
-                }
-            }
-        }
-
-        if (closestRockFormationDistance < float.MaxValue)
-        {
-            Debug.Log("Found rock formation. Position: " + foundRockFormationPosition.ToString());
-            rockFormationRef = rockFormationGO;
-            rockFormationRef.GetComponent<RockFormation>().IsInUse = true;
+            foundRockFormationPosition = rockFormationRef.transform.position;
             return true;
         }
+        else
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(center, radius);
+            foundRockFormationPosition = new Vector3(float.MaxValue, float.MaxValue, float.MaxValue);
+            float closestRockFormationDistance = float.MaxValue;
+            GameObject rockFormationGO = null;
+            foreach (var hitCollider in hitColliders)
+            {
+                var tg = hitCollider.gameObject.GetComponent<RockFormation>();
+                if (tg)
+                {
+                    float currentRockFormationDistance = Vector3.Distance(Workplace.transform.position, hitCollider.transform.position);
+                    if (currentRockFormationDistance < closestRockFormationDistance && !tg.IsInUse)
+                    {
+                        closestRockFormationDistance = currentRockFormationDistance;
+                        foundRockFormationPosition = hitCollider.transform.position;
+                        rockFormationGO = hitCollider.gameObject;
+                    }
+                }
+            }
 
-        return false;
+            if (closestRockFormationDistance < float.MaxValue)
+            {
+                Debug.Log("Found rock formation. Position: " + foundRockFormationPosition.ToString());
+                rockFormationRef = rockFormationGO;
+                rockFormationRef.GetComponent<RockFormation>().IsInUse = true;
+                return true;
+            }
+
+            return false;
+        }
     }
 
     public override void SpawnUnit()
@@ -84,6 +95,7 @@ public class Stonecutter : UnitTemplate
         MyNavMeshAgent = GetComponent<NavMeshAgent>();
 
         isCuttingRockFormation = false;
+        isWaitForStone = false;
 
         IUnit.OnUnitSpawned(Type);
     }
@@ -146,10 +158,10 @@ public class Stonecutter : UnitTemplate
                 case UnitState.Work:
                     MoveUnitToPosition(TargetPosition);
 
-                    if (!IsMoving && !isCuttingRockFormation)
+                    if (!IsMoving && !isCuttingRockFormation && !isWaitForStone)
                     {
                         isCuttingRockFormation = true;
-
+                        isWaitForStone = true;
                         StartCoroutine(CutRockFormation());
 
 
@@ -159,9 +171,9 @@ public class Stonecutter : UnitTemplate
                         ///
                         // This part needs work. Logic behind RockFormation is different.
                         ///
-                        if (!rockFormationRef)
+                        if (!CarriedResource&&rockFormationRef&&!isWaitForStone)
                         {
-                            // Tree was cut
+                            // Rock formation was cut
                             //ChangeUnitState(UnitState.Idle);
 
                             //pickup stone
@@ -169,18 +181,18 @@ public class Stonecutter : UnitTemplate
                             ChangeUnitState(UnitState.Idle);
                             isCuttingRockFormation = false;
                         }
-                        else
-                        {
-                            StartCoroutine(CutRockFormation());
-                        }
+                        //else
+                        //{
+                        //    StartCoroutine(CutRockFormation());
+                        //}
                         //when tree cut
                         //
 
                     }
                     else if (!IsInBuilding)
                     {
-                        float distanceToTargetTree = MyNavMeshAgent.remainingDistance;
-                        if (distanceToTargetTree <= 0.3f)
+                        float distanceToTargetRockFormation = MyNavMeshAgent.remainingDistance;
+                        if (distanceToTargetRockFormation <= 0.3f)
                         {
                             //Debug.Log(gameObject.name + " reached rock formation");
                             IsMoving = false;
