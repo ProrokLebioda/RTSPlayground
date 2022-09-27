@@ -30,7 +30,7 @@ public class BuildingTemplate : MonoBehaviour, IBuilding
     {
         IsBuilt = false;
         if (IsBuilt)
-            IBuilding.OnBuilt(gameObject);
+            FinishedBuilding();
     }
 
     public virtual void FinishedBuilding()

@@ -19,7 +19,7 @@ public interface IBuilding
 
     //Amount of Output Stockpiles
     int OutStockpiles { get; set; }
-    ConstructionCosts ConstructionCost { get; set; }
+    public ConstructionCosts ConstructionCost { get; set; }
     GameObject Entrance { get; set; }
 
     float BuildingRadius { get; set; }

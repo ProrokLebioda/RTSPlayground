@@ -65,13 +65,40 @@ public class Blueprint : MonoBehaviour
         }
     }
 
+    //IEnumerator PlaceBuildingRemoveBlueprint()
+    //{
+    //    this.gameObject.GetComponent<IBuilding>().Place();
+    //    yield return new WaitForSeconds(3f);
+    //    this.gameObject.GetComponent<IBuilding>().IsBuilt=true;
+    //    this.gameObject.GetComponent<IBuilding>().FinishedBuilding();
+
+    //    // Restore materials
+    //    GameObject Parent = this.gameObject;
+    //    Transform[] Children = Parent.GetComponentsInChildren<Transform>(); //Creates an array of all transforms within its children
+
+    //    foreach (Transform child in Children) //Anything that you want applied to all children in the parent object goes in here
+    //    {
+    //        MeshRenderer mr = child.gameObject.GetComponent<MeshRenderer>();
+    //        if (mr)
+    //        {
+    //            mr.material = originalMaterials.ToArray()[0];
+    //            originalMaterials.RemoveAt(0);
+    //        }
+    //    }
+    //    originalMaterials.Clear();
+    //    Destroy(this);// removes just script Blueprint
+    //}
+
     IEnumerator PlaceBuildingRemoveBlueprint()
     {
-        this.gameObject.GetComponent<IBuilding>().Place();
+        IBuilding building = this.gameObject.GetComponent<IBuilding>();
+        building.Place();
         yield return new WaitForSeconds(3f);
-        this.gameObject.GetComponent<IBuilding>().IsBuilt=true;
+
+
+        this.gameObject.GetComponent<IBuilding>().IsBuilt = true;
         this.gameObject.GetComponent<IBuilding>().FinishedBuilding();
-        
+
         // Restore materials
         GameObject Parent = this.gameObject;
         Transform[] Children = Parent.GetComponentsInChildren<Transform>(); //Creates an array of all transforms within its children
